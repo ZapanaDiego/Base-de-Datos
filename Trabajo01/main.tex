@@ -1,0 +1,349 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[spanish,es-tabla]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{setspace}
+\usepackage{titlesec}
+\usepackage{xcolor}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{tikz}
+\usetikzlibrary{calc}
+
+% Configuración de márgenes
+\geometry{
+  top=2.5cm,
+  bottom=2.5cm,
+  left=3.2cm,
+  right=2.8cm
+}
+
+% Paleta de Colores Oficial Universidad La Salle (basados en el isotipo)
+\definecolor{lasalledark}{HTML}{0D2354}       % Azul Noche / Oscuro
+\definecolor{lasalleblue}{HTML}{163982}       % Azul Institucional La Salle
+\definecolor{lasallelight}{HTML}{2E63C5}      % Azul Acento / Vivo
+\definecolor{lasallebg}{HTML}{F4F7FA}         % Fondo suave para resaltados
+
+% Configuración de hipervínculos
+\hypersetup{
+  colorlinks=true,
+  linkcolor=lasalleblue,
+  urlcolor=lasallelight,
+  citecolor=lasalledark
+}
+
+% Formato de títulos de sección
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{lasalleblue}}
+  {\thesection}{1em}{}[\color{lasallelight}\rule{\linewidth}{1pt}]
+
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\color{lasalledark}}
+  {\thesubsection}{1em}{}
+
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\bfseries\color{lasalleblue}}
+  {\thesubsubsection}{1em}{}
+
+\setstretch{1.15}
+
+\newcommand{\avisoPendiente}[2]{%
+  \noindent\textbf{\color{lasalledark}#1:} \textit{Esta parte se tiene que borrar antes de entregar. #2}\par
+  \smallskip
+  \noindent\texttt{--- --- --- --- --- --- --- --- --- --- --- ---}\par
+  \smallskip
+  \noindent\texttt{*** *** *** *** *** *** *** *** *** *** *** ***}\par
+  \medskip
+}
+
+\begin{document}
+
+% ==============================================================================
+% CARÁTULA GRUPAL INSTITUCIONAL - UNIVERSIDAD LA SALLE
+% ==============================================================================
+\begin{titlepage}
+  % Elementos gráficos en segundo plano (TikZ)
+  \begin{tikzpicture}[remember picture, overlay]
+    % Franja vertical tricolor izquierda
+    \fill[color=lasalledark] (current page.north west) rectangle ([xshift=1.2cm]current page.south west);
+    \fill[color=lasalleblue] ([xshift=1.2cm]current page.north west) rectangle ([xshift=1.5cm]current page.south west);
+    \fill[color=lasallelight] ([xshift=1.5cm]current page.north west) rectangle ([xshift=1.7cm]current page.south west);
+
+    % Triángulos decorativos inspirados en el logo de la estrella (esquina superior derecha)
+    \fill[color=lasalleblue!12] ([yshift=-4.5cm]current page.north east) -- (current page.north east) -- ([xshift=-6.5cm]current page.north east) -- cycle;
+    \fill[color=lasalleblue!30] ([yshift=-2.8cm]current page.north east) -- (current page.north east) -- ([xshift=-4.0cm]current page.north east) -- cycle;
+    \fill[color=lasallelight!50] ([yshift=-1.5cm]current page.north east) -- (current page.north east) -- ([xshift=-2.2cm]current page.north east) -- cycle;
+    
+    % Detalle en la esquina inferior derecha
+    \fill[color=lasalleblue!15] ([xshift=-3cm]current page.south east) -- (current page.south east) -- ([yshift=2cm]current page.south east) -- cycle;
+  \end{tikzpicture}
+
+  \vspace*{-0.5cm}
+  \hspace*{0.3cm}
+  \begin{minipage}{0.92\textwidth}
+    \centering
+
+    % Logo Institucional.
+    % Si mueves este archivo .tex, actualiza la ruta relativa del logo.
+    \includegraphics[width=0.48\textwidth]{img/logo_web.png}\par
+
+    \vspace{0.6cm}
+
+    {\large\scshape\bfseries\color{lasalledark} Facultad de Ingeniería\par}
+    \vspace{0.15cm}
+    {\large\bfseries\color{lasalleblue} Carrera Profesional de Ingeniería de Software\par}
+
+    \vspace{1.2cm}
+
+    % Bloque central de Titulación
+    {\color{lasalleblue}\rule{\textwidth}{1.8pt}}\\[0.3cm]
+    {\Large\bfseries\color{lasalledark} BASE DE DATOS\par}
+    \vspace{0.3cm}
+    {\large\bfseries\color{lasalleblue} Trabajo 01\par}
+    \vspace{0.3cm}
+    {\color{lasalleblue}\rule{\textwidth}{1.8pt}}
+
+    \vspace{2.2cm}
+
+    % Datos del equipo
+    \begin{flushleft}
+      \setstretch{1.3}
+      \hspace*{0.5cm}
+      \begin{tabular}{ll}
+        \textbf{\color{lasalledark} Asignatura:} & Base de Datos \\[0.15cm]
+        \textbf{\color{lasalledark} Docente:}    & Ing. R. Fabrizio Calienes Rodríguez \\[0.15cm]
+        \textbf{\color{lasalledark} Integrantes:} & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
+                                                  & $\bullet$ Sebastian German Gomez Portugala \\
+                                                  & $\bullet$ Bran Yames Paz Patatingo \\
+	                                                  & $\bullet$ Jose David Choquehuanca Calcina \\
+      \end{tabular}
+    \end{flushleft}
+
+    \vfill
+
+    % Pie de carátula
+    \vspace{2.5cm}
+    {\large\bfseries\color{lasalledark} Arequipa, Perú\par}
+    \vspace{0.15cm}
+    {\small\color{gray} \today\par}
+  \end{minipage}
+\end{titlepage}
+
+
+\clearpage
+\tableofcontents
+\clearpage
+
+\section*{I. Introducción}
+\addcontentsline{toc}{section}{I. Introducción}
+
+\subsection*{1. Contexto histórico}
+\addcontentsline{toc}{subsection}{1. Contexto histórico}
+
+\begin{itemize}
+  \item \textbf{La necesidad de almacenar y gestionar información:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Importancia de las bases de datos en el desarrollo tecnológico y empresarial:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection*{2. Objetivos del trabajo}
+\addcontentsline{toc}{subsection}{2. Objetivos del trabajo}
+
+\begin{itemize}
+  \item \textbf{Analizar la evolución de las bases de datos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Identificar los modelos más relevantes:} jerárquico, relacional, NoSQL, etc. \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Examinar el impacto de las bases de datos en las empresas modernas:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection*{3. Justificación}
+\addcontentsline{toc}{subsection}{3. Justificación}
+
+\begin{itemize}
+  \item \textbf{Comprender el papel de las bases de datos es clave para la transformación digital y la toma de decisiones:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\section{Marco Teórico}
+
+\subsection{Concepto de base de datos}
+
+\begin{itemize}
+  \item \textbf{Definición y características:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Diferencia entre datos e información:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection{Tipos de bases de datos}
+
+\begin{itemize}
+  \item \textbf{Modelo jerárquico (años 60):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Modelo de red:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Modelo relacional (años 70, Edgar F. Codd):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Bases de datos orientadas a objetos (años 80-90):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Bases de datos distribuidas y en la nube:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Bases de datos NoSQL y NewSQL (Big Data, escalabilidad):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection{Tecnologías actuales}
+
+\begin{itemize}
+  \item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\section{Desarrollo / Evolución histórica}
+
+\begin{itemize}
+  \item \textbf{Década de 1960:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Década de 1970:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Década de 1980-1990:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Década de 2000:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Década de 2010 en adelante:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\section{Impacto en las empresas modernas}
+
+\subsection{Impacto en la gestión de la información}
+
+\begin{itemize}
+  \item \textbf{Centralización y accesibilidad de datos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Seguridad y control de acceso:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Reducción de redundancia y errores:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection{Impacto en la toma de decisiones}
+
+\begin{itemize}
+  \item \textbf{Business Intelligence y Data Analytics:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Toma de decisiones basada en datos (Data-Driven Decision Making):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Casos de uso: marketing, operaciones, logística, recursos humanos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\subsection{Impacto en la competitividad empresarial}
+
+\begin{itemize}
+  \item \textbf{Personalización de servicios:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Mejora en la relación con el cliente (CRM):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Optimización de procesos y reducción de costos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Innovación en modelos de negocio (ej: Netflix, Amazon):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+\clearpage
+\section*{Referencias}
+\addcontentsline{toc}{section}{Referencias}
+
+\begin{itemize}
+  \item \textbf{Referencia 1:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Referencia 2:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
+
+  \item \textbf{Referencia 3:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
+\end{itemize}
+
+
+\end{document}
