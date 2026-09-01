@@ -230,50 +230,50 @@
 \subsection{Tecnologías actuales}
 
 \begin{itemize}
-  \item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
+  Motores relacionales que organizan los datos en tablas con filas y columnas, relacionadas mediante claves primarias y foráneas. \\
+  Garantizan integridad mediante las propiedades ACID (Atomicidad, Consistencia, Aislamiento, Durabilidad), siendo el estándar en entornos empresariales y transaccionales.
 
-  \item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
+  Bases de datos no relacionales orientadas a documentos (MongoDB), columnas anchas (Cassandra) o clave-valor en memoria (Redis). \\
+  Surgen para manejar grandes volúmenes de datos, alta velocidad de lectura/escritura y datos no estructurados, priorizando escalabilidad horizontal sobre la rigidez del modelo relacional.
 
-  \item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
+  Bases de datos ofrecidas como servicio (DBaaS) en la nube, como AWS RDS/DynamoDB, Azure SQL Database/Cosmos DB y Google Cloud SQL/BigQuery. \\
+  Eliminan la necesidad de administrar hardware propio, ofreciendo escalabilidad elástica, backups automáticos y alta disponibilidad geográfica.
 
-  \item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
+  Integración de machine learning directamente en los motores de bases de datos (ej. BigQuery ML, Oracle Machine Learning) y uso de bases de datos vectoriales para IA generativa. \\
+  Permite el análisis predictivo, es decir, usar datos históricos para anticipar comportamientos futuros como demanda, fraude o mantenimiento preventivo.
 \end{itemize}
 
 \section{Desarrollo / Evolución histórica}
 
 \begin{itemize}
-  \item \textbf{Década de 1960:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1960:} \\
+  Origen de los sistemas de gestión de datos con los modelos jerárquico y de red, siendo IBM IMS (1966) uno de los primeros sistemas de bases de datos. \\
+  El modelo CODASYL, desarrollado por Charles Bachman, permitía relaciones más complejas entre registros que el modelo jerárquico. \\
+  Los datos estaban muy ligados a la estructura física de almacenamiento, sin independencia entre datos y programas.
 
-  \item \textbf{Década de 1970:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1970:} \\
+  Edgar F. Codd publica en 1970 el paper fundacional que da origen al modelo relacional, introduciendo el concepto de tablas, claves y álgebra relacional. \\
+  IBM desarrolla System R, el primer prototipo de RDBMS, del cual nace el lenguaje SEQUEL, precursor de SQL. \\
+  A fines de la década, Larry Ellison funda Oracle (1977) y lanza el primer RDBMS comercial basado en SQL.
 
-  \item \textbf{Década de 1980-1990:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1980-1990:} \\
+  El modelo relacional se consolida como estándar de la industria y SQL se estandariza (ANSI SQL, 1986). \\
+  Crecen motores como Oracle, IBM DB2, Microsoft SQL Server e Informix, junto con el surgimiento del modelo cliente-servidor. \\
+  A fines de los 90 nacen proyectos open source como MySQL (1995) y PostgreSQL, además de los primeros conceptos de data warehousing.
 
-  \item \textbf{Década de 2000:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 2000:} \\
+  El crecimiento explosivo de internet genera volúmenes de datos que el modelo relacional maneja con dificultad, dando origen al movimiento NoSQL. \\
+  Google (BigTable, 2006) y Amazon (Dynamo, 2007) publican papers que inspiran nuevas arquitecturas distribuidas. \\
+  Surge Hadoop (2006) para el procesamiento distribuido de grandes volúmenes de datos (Big Data).
 
-  \item \textbf{Década de 2010 en adelante:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 2010 en adelante:} \\
+  Consolidación de NoSQL con la popularización masiva de MongoDB, Cassandra y Redis. \\
+  Auge del Cloud Computing, con la migración de bases de datos a la nube y el nacimiento del modelo DBaaS (Database as a Service). \\
+  Surgen las bases de datos NewSQL (CockroachDB, Google Spanner) y, en los últimos años, la integración de IA, análisis predictivo y bases de datos vectoriales.
 \end{itemize}
 
 \section{Impacto en las empresas modernas}
