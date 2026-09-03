@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1788433054.52477 "/home/diego/Documentos/BaseDeDatos/Base-de-Datos/Trabajo01/main.tex" "main.pdf" "main" 1788433054.65718 2
-  "/home/diego/Documentos/BaseDeDatos/Base-de-Datos/Trabajo01/main.tex" 1788433053.6984 14279 d1af0f8af4edb9b5423efdc27320492e ""
+["pdflatex"] 1788439554.72329 "/home/diego/Documentos/BaseDeDatos/Base-de-Datos/Trabajo01/main.tex" "main.pdf" "main" 1788439555.30663 2
+  "/home/diego/Documentos/BaseDeDatos/Base-de-Datos/Trabajo01/main.tex" 1788439552.90746 14279 d1af0f8af4edb9b5423efdc27320492e ""
   "/usr/share/texmf-dist/fonts/tfm/jknappen/ec/ecrm1200.tfm" 1775415801 3584 f80ddd985bd00e29e9a6047ebd9d4781 ""
   "/usr/share/texmf-dist/fonts/tfm/public/cm/cmr12.tfm" 1775415801 1288 655e228510b4c2a1abe905c368440826 ""
   "/usr/share/texmf-dist/tex/generic/babel/babel.sty" 1775415801 147019 f2ca437186bfeb562e1066ad59426a04 ""
@@ -28,8 +28,8 @@
   "/usr/share/texmf-dist/web2c/texmf.cnf" 1775415801 43569 fd570f2fa160877d211e859f687312ba ""
   "/var/lib/texmf/web2c/pdftex/pdflatex.fmt" 1788392169 3084557 836c7edbb607a92d91e57accf12c37c3 ""
   "lmodern.sty" 0 -1 0 ""
-  "main.aux" 1788433046.52348 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
-  "main.tex" 1788433053.6984 14279 d1af0f8af4edb9b5423efdc27320492e ""
+  "main.aux" 1788439546.71851 32 3985256e7290058c681f74d7a3565a19 "pdflatex"
+  "main.tex" 1788439552.90746 14279 d1af0f8af4edb9b5423efdc27320492e ""
   (generated)
   "main.aux"
   "main.log"
