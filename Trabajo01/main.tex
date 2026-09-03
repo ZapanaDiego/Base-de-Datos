@@ -1,18 +1,23 @@
 \documentclass[12pt,a4paper]{article}
 
-\usepackage[spanish,es-tabla]{babel}
+\usepackage{babel}
+\babelprovide[main,import]{spanish}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{xcolor}
-\usepackage{lmodern}
-\usepackage{hyperref}
+\usepackage[protrusion=true,expansion=false]{microtype}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{tikz}
 \usetikzlibrary{calc}
+\usepackage[plainpages=false,pdfpagelabels]{hyperref}
+
+% Configuración de nombres en español
+\renewcommand{\tablename}{Tabla}
+\renewcommand{\listtablename}{Índice de tablas}
 
 % Configuración de márgenes
 \geometry{
@@ -33,8 +38,12 @@
   colorlinks=true,
   linkcolor=lasalleblue,
   urlcolor=lasallelight,
-  citecolor=lasalledark
+  citecolor=lasalledark,
+  pdfencoding=auto,
+  psdextra
 }
+
+\setlength{\emergencystretch}{2em}
 
 % Formato de títulos de sección
 \titleformat{\section}
@@ -52,6 +61,8 @@
 \setstretch{1.15}
 
 \begin{document}
+
+\pagenumbering{alph}
 
 % ==============================================================================
 % CARÁTULA GRUPAL INSTITUCIONAL - UNIVERSIDAD LA SALLE
@@ -126,7 +137,7 @@
     % Logo Institucional
     \includegraphics[width=0.48\textwidth]{img/logo_web.png}\par
 
-    \vspace{0.6cm}
+    \vspace{0.5cm}
 
     {\large\scshape\bfseries\color{lasalledark}
     Facultad de Ingeniería\par}
@@ -136,7 +147,7 @@
     {\large\bfseries\color{lasalleblue}
     Carrera Profesional de Ingeniería de Software\par}
 
-    \vspace{1.2cm}
+    \vspace{1.0cm}
 
     % Bloque central
     {\color{lasalleblue}\rule{\textwidth}{1.8pt}}\\[0.3cm]
@@ -153,7 +164,7 @@
 
     {\color{lasalleblue}\rule{\textwidth}{1.8pt}}
 
-    \vspace{2.2cm}
+    \vspace{1.5cm}
 
     % Datos del equipo
     \begin{flushleft}
@@ -172,7 +183,7 @@
         & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
 
         &
-        $\bullet$ Sebastian German Gomez Portugala \\
+        $\bullet$ Sebastian German Gomez Portugal \\
 
         &
         $\bullet$ Bran Yames Paz Patatingo \\
@@ -187,8 +198,7 @@
     \vfill
 
     % Pie de carátula
-    \vspace{2.5cm}
-
+    
     {\large\bfseries\color{lasalledark}
     Arequipa, Perú\par}
 
@@ -207,16 +217,19 @@
 % ==============================================================================
 
 \clearpage
+\pagenumbering{roman}
 
 \tableofcontents
 
 \clearpage
+\pagenumbering{arabic}
 
 
 % ==============================================================================
 % I. INTRODUCCIÓN
 % ==============================================================================
 
+\phantomsection
 \section*{I. Introducción}
 \addcontentsline{toc}{section}{I. Introducción}
 
@@ -225,6 +238,7 @@
 % 1. Contexto histórico
 % ------------------------------------------------------------------------------
 
+\phantomsection
 \subsection*{1. Contexto histórico}
 \addcontentsline{toc}{subsection}{1. Contexto histórico}
 
@@ -245,6 +259,7 @@
 % 2. Objetivos del trabajo
 % ------------------------------------------------------------------------------
 
+\phantomsection
 \subsection*{2. Objetivos del trabajo}
 \addcontentsline{toc}{subsection}{2. Objetivos del trabajo}
 
@@ -269,6 +284,7 @@
 % 3. Justificación
 % ------------------------------------------------------------------------------
 
+\phantomsection
 \subsection*{3. Justificación}
 \addcontentsline{toc}{subsection}{3. Justificación}
 
@@ -460,6 +476,7 @@
 
 \clearpage
 
+\phantomsection
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}
 
