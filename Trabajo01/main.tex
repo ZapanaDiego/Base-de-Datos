@@ -2,6 +2,7 @@
 
 \usepackage[spanish,es-tabla]{babel}
 \usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{setspace}
@@ -77,7 +78,7 @@
     \fill[color=lasalleblue!12] ([yshift=-4.5cm]current page.north east) -- (current page.north east) -- ([xshift=-6.5cm]current page.north east) -- cycle;
     \fill[color=lasalleblue!30] ([yshift=-2.8cm]current page.north east) -- (current page.north east) -- ([xshift=-4.0cm]current page.north east) -- cycle;
     \fill[color=lasallelight!50] ([yshift=-1.5cm]current page.north east) -- (current page.north east) -- ([xshift=-2.2cm]current page.north east) -- cycle;
-    
+
     % Detalle en la esquina inferior derecha
     \fill[color=lasalleblue!15] ([xshift=-3cm]current page.south east) -- (current page.south east) -- ([yshift=2cm]current page.south east) -- cycle;
   \end{tikzpicture}
@@ -161,12 +162,7 @@
   Describir el proceso histórico mediante el cual las bases de datos han evolucionado desde los primeros sistemas de archivos hasta las soluciones distribuidas y en la nube utilizadas en la actualidad.
 
   \item \textbf{Identificar los modelos más relevantes:} jerárquico, relacional, NoSQL, etc. \\
-<<<<<<< HEAD
   Reconocer y explicar las características principales de los distintos modelos de bases de datos que han marcado hitos importantes en la disciplina, así como sus ventajas y limitaciones respectivas.
-=======
-  ---------------------------------------------------------------- \\
-  -------------------------------------------------------------------
->>>>>>> rama-concepto
 
   \item \textbf{Examinar el impacto de las bases de datos en las empresas modernas:} \\
   Evaluar de qué manera las bases de datos han transformado la gestión de la información, la toma de decisiones y la competitividad de las organizaciones en el contexto empresarial actual.
@@ -186,129 +182,117 @@
 
 \begin{itemize}
   \item \textbf{Definición y características:} \\
-  Una base de datos es una colección estructurada de información organizada de forma lógica para almacenar, gestionar y recuperar grandes volúmenes de datos 
-  de manera eficiente . Se caracteriza principalmente por su capacidad de mantener los datos ordenados mediante modelos lógicos, ofrecer un acceso rápido y seguro, garantizar
-  la consistencia reduciendo la duplicidad, y permitir que múltiples usuarios o aplicaciones accedan a la información simultáneamente sin comprometer su seguridad.\\
+  Una base de datos es una colección estructurada de información organizada de forma lógica para almacenar, gestionar y recuperar grandes volúmenes de datos de manera eficiente. Se caracteriza principalmente por su capacidad de mantener los datos ordenados mediante modelos lógicos, ofrecer un acceso rápido y seguro, garantizar la consistencia reduciendo la duplicidad, y permitir que múltiples usuarios o aplicaciones accedan a la información simultáneamente sin comprometer su seguridad.\\
 
   \item \textbf{Diferencia entre datos e información:} \\
   La diferencia entre la información y los datos es que los datos consisten en hechos crudos y no procesados, mientras que la información son datos que se han organizado y contextualizado para que sean significativos.\\
-  
+
 \end{itemize}
 
 \subsection{Tipos de bases de datos}
 
 \begin{itemize}
   \item \textbf{Modelo jerárquico (años 60):} \\
-  Originó impulsado por el proyecto Apolo, cuyo propósito era administrar la enorme cantidad de información generada por la misión lunar. Para lograrlo, la compañía North American Aviation
-  creó el software GUAM (General Update Access Method), el cual aplicaba una estructura de tipo árbol para integrar componentes menores en elementos más grandes hasta conformar el producto final.\\
+  Originó impulsado por el proyecto Apolo, cuyo propósito era administrar la enorme cantidad de información generada por la misión lunar. Para lograrlo, la compañía North American Aviation creó el software GUAM (General Update Access Method), el cual aplicaba una estructura de tipo árbol para integrar componentes menores en elementos más grandes hasta conformar el producto final.\\
   Almacena datos enlazando los registros en forma de árbol donde un nodo padre puede tener varios nodos hijos.\\
-  
 
   \item \textbf{Modelo de red:} \\
   La compañía General Electric creó IDS (Integrated Data Store), bajo la dirección de Charles Bachmann, con la finalidad de modelar conexiones entre datos más complejas que las permitidas por los esquemas jerárquicos y establecer un estándar en la industria.\\
-  Almacena datos enlazando los registros en forma de árbol donde un nodo hijo puede tener varios nodos padre. \\
- 
+  Almacena datos enlazando los registros en una estructura de grafo donde un nodo hijo puede tener varios nodos padre. \\
 
   \item \textbf{Modelo relacional (años 70, Edgar F. Codd):} \\
-  El modelo relacional, desarrollado para IBM y fundamentado en la teoría matemática de conjuntos, destaca por tres características principales: su representación tabular, que resulta simple y fácil de implementar; la normalización,
-  que aplica restricciones para evitar la duplicidad de datos; y el uso de operadores poderosos basados en el álgebra y cálculo relacional para manipular la información con eficiencia. \\
-  Almacena datos en tablas enlazando los registros entre tablas a través de un mismo atributo de enlace que se repiten en ambas tablas.\\
+  El modelo relacional, desarrollado para IBM y fundamentado en la teoría matemática de conjuntos, destaca por tres características principales: su representación tabular, que resulta simple y fácil de implementar; la normalización, que aplica restricciones para evitar la duplicidad de datos; y el uso de operadores poderosos basados en el álgebra y cálculo relacional para manipular la información con eficiencia. \\
+  Almacena datos en tablas enlazando los registros entre tablas a través de un mismo atributo de enlace que se repite en ambas tablas.\\
 
   \item \textbf{Bases de datos orientadas a objetos (años 80-90):} \\
-  Surgieron con el propósito de almacenar la información directamente como objetos (con sus respectivos atributos y métodos) tal como se estructuraba el código en los lenguajes de programación orientados a objetos.
-  Su objetivo principal era eliminar la disparidad técnica que existía entre la lógica de las aplicaciones y el almacenamiento tradicional en tablas relacionales, permitiendo gestionar estructuras de datos complejas de manera más natural. \\
-  
+  Surgieron con el propósito de almacenar la información directamente como objetos (con sus respectivos atributos y métodos) tal como se estructuraba el código en los lenguajes de programación orientados a objetos. Su objetivo principal era eliminar la disparidad técnica que existía entre la lógica de las aplicaciones y el almacenamiento tradicional en tablas relacionales, permitiendo gestionar estructuras de datos complejas de manera más natural. \\
 
   \item \textbf{Bases de datos distribuidas y en la nube:} \\
-  La información se encuentra esparcida y sincronizada en múltiples ubicaciones físicas, servidores o centros de datos, pero se administra de manera unificada para el usuario. 
-  Las soluciones en la nube aprovechan esta arquitectura distribuida para ofrecer una alta disponibilidad, tolerancia a fallos ante posibles caídas de hardware.\\
-  
+  La información se encuentra esparcida y sincronizada en múltiples ubicaciones físicas, servidores o centros de datos, pero se administra de manera unificada para el usuario. Las soluciones en la nube aprovechan esta arquitectura distribuida para ofrecer una alta disponibilidad y tolerancia a fallos ante posibles caídas de hardware.\\
 
   \item \textbf{Bases de datos NoSQL y NewSQL (Big Data, escalabilidad):} \\
-  NoSQL: Debido a las características de las bases de datos SQL surgió la clase de bases de datos NoSQL. Estas bases de datos poseen un esquema libre y un diseño de esquemas flexibles que pueden manejar una variedad de datos, son escalables y proveen una alta disponibilidad por lo cual son favorables para almacenar Big Data y datos de Internet de las cosas (IoT).\\
-  NewSQL: Esta diseñado de una manera que mantiene el aspecto relacional del RDBMS tradicional y al mismo tiempo incorpora soluciones de las bases de datos NoSQL (escalabilidad y alta disponibilidad). Este modelo es aclamado como el más prometedor sistema de gestión de bases de datos, es así como es mucho más hábil en el manejo de datos que otras bases de datos para los datos de IoT cada vez mayores.
+  NoSQL: Debido a las limitaciones de las bases de datos SQL surgió la clase de bases de datos NoSQL. Estas bases de datos poseen un esquema libre y un diseño de esquemas flexibles que pueden manejar una variedad de datos, son escalables y proveen una alta disponibilidad, por lo cual son favorables para almacenar Big Data y datos de Internet de las cosas (IoT).\\
+  NewSQL: Está diseñado de una manera que mantiene el aspecto relacional del RDBMS tradicional y al mismo tiempo incorpora soluciones de las bases de datos NoSQL (escalabilidad y alta disponibilidad). Este modelo es considerado uno de los más prometedores sistemas de gestión de bases de datos, siendo mucho más hábil en el manejo de los datos de IoT, cada vez mayores en volumen.
 \end{itemize}
 
 \subsection{Tecnologías actuales}
 
 \begin{itemize}
-  \item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
+  Motores relacionales que organizan los datos en tablas con filas y columnas, relacionadas mediante claves primarias y foráneas. \\
+  Garantizan integridad mediante las propiedades ACID (Atomicidad, Consistencia, Aislamiento, Durabilidad), siendo el estándar en entornos empresariales y transaccionales.
 
-  \item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
+  Bases de datos no relacionales orientadas a documentos (MongoDB), columnas anchas (Cassandra) o clave-valor en memoria (Redis). \\
+  Surgen para manejar grandes volúmenes de datos, alta velocidad de lectura/escritura y datos no estructurados, priorizando escalabilidad horizontal sobre la rigidez del modelo relacional.
 
-  \item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
+  Bases de datos ofrecidas como servicio (DBaaS) en la nube, como AWS RDS/DynamoDB, Azure SQL Database/Cosmos DB y Google Cloud SQL/BigQuery. \\
+  Eliminan la necesidad de administrar hardware propio, ofreciendo escalabilidad elástica, backups automáticos y alta disponibilidad geográfica.
 
-  \item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
+  Integración de machine learning directamente en los motores de bases de datos (ej. BigQuery ML, Oracle Machine Learning) y uso de bases de datos vectoriales para IA generativa. \\
+  Permite el análisis predictivo, es decir, usar datos históricos para anticipar comportamientos futuros como demanda, fraude o mantenimiento preventivo.
 \end{itemize}
 
 \section{Desarrollo / Evolución histórica}
 
 \begin{itemize}
-  \item \textbf{Década de 1960:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1960:} \\
+  Origen de los sistemas de gestión de datos con los modelos jerárquico y de red, siendo IBM IMS (1966) uno de los primeros sistemas de bases de datos. \\
+  El modelo CODASYL, desarrollado por Charles Bachman, permitía relaciones más complejas entre registros que el modelo jerárquico. \\
+  Los datos estaban muy ligados a la estructura física de almacenamiento, sin independencia entre datos y programas.
 
-  \item \textbf{Década de 1970:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1970:} \\
+  Edgar F. Codd publica en 1970 el paper fundacional que da origen al modelo relacional, introduciendo el concepto de tablas, claves y álgebra relacional. \\
+  IBM desarrolla System R, el primer prototipo de RDBMS, del cual nace el lenguaje SEQUEL, precursor de SQL. \\
+  A fines de la década, Larry Ellison funda Oracle (1977) y lanza el primer RDBMS comercial basado en SQL.
 
-  \item \textbf{Década de 1980-1990:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 1980-1990:} \\
+  El modelo relacional se consolida como estándar de la industria y SQL se estandariza (ANSI SQL, 1986). \\
+  Crecen motores como Oracle, IBM DB2, Microsoft SQL Server e Informix, junto con el surgimiento del modelo cliente-servidor. \\
+  A fines de los 90 nacen proyectos open source como MySQL (1995) y PostgreSQL, además de los primeros conceptos de data warehousing.
 
-  \item \textbf{Década de 2000:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 2000:} \\
+  El crecimiento explosivo de internet genera volúmenes de datos que el modelo relacional maneja con dificultad, dando origen al movimiento NoSQL. \\
+  Google (BigTable, 2006) y Amazon (Dynamo, 2007) publican papers que inspiran nuevas arquitecturas distribuidas. \\
+  Surge Hadoop (2006) para el procesamiento distribuido de grandes volúmenes de datos (Big Data).
 
-  \item \textbf{Década de 2010 en adelante:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+\item \textbf{Década de 2010 en adelante:} \\
+  Consolidación de NoSQL con la popularización masiva de MongoDB, Cassandra y Redis. \\
+  Auge del Cloud Computing, con la migración de bases de datos a la nube y el nacimiento del modelo DBaaS (Database as a Service). \\
+  Surgen las bases de datos NewSQL (CockroachDB, Google Spanner) y, en los últimos años, la integración de IA, análisis predictivo y bases de datos vectoriales.
 \end{itemize}
 
 \section{Impacto en las empresas modernas}
 
-\begin{itemize}
-    \textbf Las bases de datos son fundamentales para las grandes empresas porque permiten almacenar, organizar, proteger y analizar millones de datos. La importancia de esta tecnología no solo se limita al área informática, también influyen directamente con la eficiencia operativa, la toma de decisiones, la relación con los clientes y la capacidad de competencia ante el mercado.
-\end{itemize}
+Las bases de datos son fundamentales para las grandes empresas porque permiten almacenar, organizar, proteger y analizar millones de datos. La importancia de esta tecnología no solo se limita al área informática: también influye directamente en la eficiencia operativa, la toma de decisiones, la relación con los clientes y la capacidad de competencia ante el mercado.
 
 \subsection{Impacto en la gestión de la información}
 
 \begin{itemize}
   \item \textbf{Centralización y accesibilidad de datos:} \\
-  Las bases de datos permiten reunir información en un mismo sistema desde distintas áreas de la empresa, como inventario, recursos, finanzas o ventas. Está centralización evita que cada área trabaje con registros aislados, mejorando la eficacia y acceso a información actualizada. Así mismo, permite que arquitecturas modernas como el Cloud Databasee eliminen la barrera de la información aislada, lo cual hace que se pueda acceder a la data desde cualquier ubicación geográfica y en tiempo real. 
+  Las bases de datos permiten reunir información en un mismo sistema desde distintas áreas de la empresa, como inventario, recursos, finanzas o ventas. Esta centralización evita que cada área trabaje con registros aislados, mejorando la eficacia y el acceso a información actualizada. Así mismo, permite que arquitecturas modernas como el Cloud Database eliminen la barrera de la información aislada, lo cual hace posible acceder a la data desde cualquier ubicación geográfica y en tiempo real.
 
-  \item \textbf{Seguridad y control de acceso:}
+  \item \textbf{Seguridad y control de acceso:} \\
   Las bases de datos permiten establecer permisos según el cargo o la función de cada trabajador. Un empleado del área de ventas, por ejemplo, puede consultar información de clientes y pedidos, mientras que el personal financiero puede acceder a datos contables más sensibles.
 
-Entre los mecanismos de seguridad más utilizados se encuentran:
-   \begin{itemize}
-       \item Usuarios y contraseñas.
-        \item Roles y permisos de acceso.
-        \item Cifrado de información.
-        \item Copias de seguridad.
-        \item Registro de actividades y auditorías.
-        \item Control de acceso basado en funciones.
-   \end{itemize}
+  Entre los mecanismos de seguridad más utilizados se encuentran:
+  \begin{itemize}
+    \item Usuarios y contraseñas.
+    \item Roles y permisos de acceso.
+    \item Cifrado de información.
+    \item Copias de seguridad.
+    \item Registro de actividades y auditorías.
+    \item Control de acceso basado en funciones.
+  \end{itemize}
 
-Estas medidas ayudan a proteger la información contra accesos no autorizados, pérdidas, alteraciones y filtraciones. Sin embargo, la seguridad no depende únicamente de la tecnología: también requiere políticas internas, capacitación del personal y supervisión permanente.
+  Estas medidas ayudan a proteger la información contra accesos no autorizados, pérdidas, alteraciones y filtraciones. Sin embargo, la seguridad no depende únicamente de la tecnología: también requiere políticas internas, capacitación del personal y supervisión permanente.
 
   \item \textbf{Reducción de redundancia y errores:} \\
   Una base de datos bien diseñada disminuye la duplicación de información. Por ejemplo, los datos de un cliente pueden almacenarse una sola vez y ser utilizados por ventas, marketing y servicio al cliente. Esto reduce el riesgo de que existan diferentes versiones del mismo registro.
 
-Además, los sistemas gestores de bases de datos pueden utilizar reglas de validación para evitar errores, como números telefónicos incompletos, fechas incorrectas o productos registrados con códigos repetidos. La reducción de inconsistencias mejora la calidad de la información y evita problemas en procesos como la facturación, el control de inventario y la elaboración de reportes.¿
+  Además, los sistemas gestores de bases de datos pueden utilizar reglas de validación para evitar errores, como números telefónicos incompletos, fechas incorrectas o productos registrados con códigos repetidos. La reducción de inconsistencias mejora la calidad de la información y evita problemas en procesos como la facturación, el control de inventario y la elaboración de reportes.
 \end{itemize}
 
 \subsection{Impacto en la toma de decisiones}
@@ -317,35 +301,36 @@ Además, los sistemas gestores de bases de datos pueden utilizar reglas de valid
   \item \textbf{Business Intelligence y Data Analytics:} \\
   Las bases de datos constituyen la base de las herramientas de Business Intelligence (BI) y de análisis de datos. Estas herramientas convierten los registros empresariales en informes, indicadores, gráficos y modelos que ayudan a comprender el comportamiento de la organización.
 
-A partir de los datos almacenados, una empresa puede analizar:
-\begin{itemize}
+  A partir de los datos almacenados, una empresa puede analizar:
+  \begin{itemize}
     \item Evolución de las ventas.
     \item Productos más rentables.
     \item Costos operativos.
     \item Comportamiento de los clientes.
     \item Rendimiento de los trabajadores.
     \item Niveles de inventario.
-    \item Rcursos.
-\end{itemize}
+    \item Recursos.
+  \end{itemize}
 
-El análisis histórico permite conocer qué ocurrió, mientras que el análisis predictivo intenta estimar qué podría suceder en el futuro. Por ejemplo, una empresa puede utilizar sus datos de ventas para prever la demanda de un producto durante una temporada determinada.
+  El análisis histórico permite conocer qué ocurrió, mientras que el análisis predictivo intenta estimar qué podría suceder en el futuro. Por ejemplo, una empresa puede utilizar sus datos de ventas para prever la demanda de un producto durante una temporada determinada.
 
   \item \textbf{Toma de decisiones basada en datos (Data-Driven Decision Making):} \\
   La toma de decisiones basada en datos consiste en utilizar información y análisis para orientar las decisiones empresariales, en lugar de depender únicamente de la intuición. Este enfoque permite identificar tendencias, medir resultados, comparar alternativas y reducir la incertidumbre.
-  Las decisiones basadas en datos puede responder preguntas como:
-  \begin{itemize}
-      \item ¿Qué producto debe recibir mayor inversión? 
-      \item ¿Qué campaña publicitaria genera mejores resultados?
-  \end{itemize}  
 
-Por ejemplo, una empresa de transporte puede analizar los tiempos de entrega, las rutas, el consumo de combustible y la cantidad de pedidos para diseñar recorridos más eficientes. Esto puede ayudar a reducir costos y mejorar la satisfacción del cliente.
+  Las decisiones basadas en datos pueden responder preguntas como:
+  \begin{itemize}
+    \item ¿Qué producto debe recibir mayor inversión?
+    \item ¿Qué campaña publicitaria genera mejores resultados?
+  \end{itemize}
+
+  Por ejemplo, una empresa de transporte puede analizar los tiempos de entrega, las rutas, el consumo de combustible y la cantidad de pedidos para diseñar recorridos más eficientes. Esto puede ayudar a reducir costos y mejorar la satisfacción del cliente.
 
   \item \textbf{Casos de uso: marketing, operaciones, logística, recursos humanos:} \\
   En marketing, las bases de datos permiten segmentar a los clientes según sus preferencias y comportamientos para diseñar campañas personalizadas, recomendar productos y medir el impacto de las estrategias comerciales.
 
-En operaciones y logística, facilitan el control del inventario en tiempo real, la automatización de la reposición de mercancía y el rastreo de envíos, lo que optimiza las rutas y reduce los tiempos de entrega.
+  En operaciones y logística, facilitan el control del inventario en tiempo real, la automatización de la reposición de mercancía y el rastreo de envíos, lo que optimiza las rutas y reduce los tiempos de entrega.
 
-En recursos humanos, centralizan la administración del personal y permiten analizar indicadores como la rotación, el ausentismo y las necesidades de capacitación para mejorar el clima y el rendimiento laboral.
+  En recursos humanos, centralizan la administración del personal y permiten analizar indicadores como la rotación, el ausentismo y las necesidades de capacitación para mejorar el clima y el rendimiento laboral.
 \end{itemize}
 
 \subsection{Impacto en la competitividad empresarial}
@@ -354,22 +339,22 @@ En recursos humanos, centralizan la administración del personal y permiten anal
   \item \textbf{Personalización de servicios:} \\
   El acceso a información detallada sobre los clientes permite adaptar productos, servicios y comunicaciones a sus necesidades. La personalización puede mejorar la experiencia del consumidor y aumentar su fidelidad.
 
-Por ejemplo, una plataforma de entretenimiento puede analizar el historial de reproducción de cada usuario para sugerir películas o series. Del mismo modo, una entidad financiera puede ofrecer productos diferentes según el perfil y las necesidades de cada cliente.
+  Por ejemplo, una plataforma de entretenimiento puede analizar el historial de reproducción de cada usuario para sugerir películas o series. Del mismo modo, una entidad financiera puede ofrecer productos diferentes según el perfil y las necesidades de cada cliente.
 
-No obstante, la personalización debe equilibrarse con la transparencia y la privacidad. Una empresa que utiliza datos sin autorización puede perder la confianza de sus clientes y enfrentar consecuencias legales o reputacionales.
+  No obstante, la personalización debe equilibrarse con la transparencia y la privacidad. Una empresa que utiliza datos sin autorización puede perder la confianza de sus clientes y enfrentar consecuencias legales o reputacionales.
 
   \item \textbf{Mejora en la relación con el cliente (CRM):} \\
   Los sistemas CRM almacenan y organizan información sobre las interacciones entre la empresa y sus clientes. Pueden registrar llamadas, correos electrónicos, compras, reclamos, solicitudes y preferencias.
 
-Esto permite que la empresa tenga una visión más completa de cada cliente. Si una persona contacta al servicio de atención, el trabajador puede consultar sus operaciones anteriores y ofrecer una respuesta más rápida y adecuada. El CRM contribuye a:
-     \begin{itemize}
-         \item Mejorar la atención al cliente. 
-          \item Identificar clientes importantes.
-           \item Dar seguimiento a oportunidades de venta.
-     \end{itemize}
+  Esto permite que la empresa tenga una visión más completa de cada cliente. Si una persona contacta al servicio de atención, el trabajador puede consultar sus operaciones anteriores y ofrecer una respuesta más rápida y adecuada. El CRM contribuye a:
+  \begin{itemize}
+    \item Mejorar la atención al cliente.
+    \item Identificar clientes importantes.
+    \item Dar seguimiento a oportunidades de venta.
+  \end{itemize}
 
   \item \textbf{Optimización de procesos y reducción de costos:} \\
-  El análisis de los bases de datos permite descubrir actividades repetitivas, cuellos de botella y recursos utilizados de manera ineficiente. Con esta información, la empresa puede automatizar tareas y rediseñar procesos.
+  El análisis de las bases de datos permite descubrir actividades repetitivas, cuellos de botella y recursos utilizados de manera ineficiente. Con esta información, la empresa puede automatizar tareas y rediseñar procesos.
 
   \item \textbf{Innovación en modelos de negocio (ej: Netflix, Amazon):} \\
   Las bases de datos también permiten crear nuevos productos y formas de generar ingresos. Empresas digitales como Netflix, Amazon y otras plataformas basan gran parte de sus servicios en la recopilación y el análisis de información sobre usuarios, productos y transacciones.
@@ -381,7 +366,7 @@ Esto permite que la empresa tenga una visión más completa de cada cliente. Si 
 
 \begin{itemize}
   \item \textbf{Referencia 1:} Autor(es), título, año, editorial o sitio web, enlace. \\
-  
+  -------------------------------------------------------------------
 
   \item \textbf{Referencia 2:} Autor(es), título, año, editorial o sitio web, enlace. \\
   -------------------------------------------------------------------
@@ -389,6 +374,5 @@ Esto permite que la empresa tenga una visión más completa de cada cliente. Si 
   \item \textbf{Referencia 3:} Autor(es), título, año, editorial o sitio web, enlace. \\
   -------------------------------------------------------------------
 \end{itemize}
-
 
 \end{document}
