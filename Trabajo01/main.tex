@@ -161,7 +161,12 @@
   Describir el proceso histórico mediante el cual las bases de datos han evolucionado desde los primeros sistemas de archivos hasta las soluciones distribuidas y en la nube utilizadas en la actualidad.
 
   \item \textbf{Identificar los modelos más relevantes:} jerárquico, relacional, NoSQL, etc. \\
+<<<<<<< HEAD
   Reconocer y explicar las características principales de los distintos modelos de bases de datos que han marcado hitos importantes en la disciplina, así como sus ventajas y limitaciones respectivas.
+=======
+  ---------------------------------------------------------------- \\
+  -------------------------------------------------------------------
+>>>>>>> rama-concepto
 
   \item \textbf{Examinar el impacto de las bases de datos en las empresas modernas:} \\
   Evaluar de qué manera las bases de datos han transformado la gestión de la información, la toma de decisiones y la competitividad de las organizaciones en el contexto empresarial actual.
@@ -181,42 +186,47 @@
 
 \begin{itemize}
   \item \textbf{Definición y características:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  Una base de datos es una colección estructurada de información organizada de forma lógica para almacenar, gestionar y recuperar grandes volúmenes de datos 
+  de manera eficiente . Se caracteriza principalmente por su capacidad de mantener los datos ordenados mediante modelos lógicos, ofrecer un acceso rápido y seguro, garantizar
+  la consistencia reduciendo la duplicidad, y permitir que múltiples usuarios o aplicaciones accedan a la información simultáneamente sin comprometer su seguridad.\\
 
   \item \textbf{Diferencia entre datos e información:} \\
-  ------------------------------------------------------------------- \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  La diferencia entre la información y los datos es que los datos consisten en hechos crudos y no procesados, mientras que la información son datos que se han organizado y contextualizado para que sean significativos.\\
+  
 \end{itemize}
 
 \subsection{Tipos de bases de datos}
 
 \begin{itemize}
   \item \textbf{Modelo jerárquico (años 60):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  Originó impulsado por el proyecto Apolo, cuyo propósito era administrar la enorme cantidad de información generada por la misión lunar. Para lograrlo, la compañía North American Aviation
+  creó el software GUAM (General Update Access Method), el cual aplicaba una estructura de tipo árbol para integrar componentes menores en elementos más grandes hasta conformar el producto final.\\
+  Almacena datos enlazando los registros en forma de árbol donde un nodo padre puede tener varios nodos hijos.\\
+  
 
   \item \textbf{Modelo de red:} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  La compañía General Electric creó IDS (Integrated Data Store), bajo la dirección de Charles Bachmann, con la finalidad de modelar conexiones entre datos más complejas que las permitidas por los esquemas jerárquicos y establecer un estándar en la industria.\\
+  Almacena datos enlazando los registros en forma de árbol donde un nodo hijo puede tener varios nodos padre. \\
+ 
 
   \item \textbf{Modelo relacional (años 70, Edgar F. Codd):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  El modelo relacional, desarrollado para IBM y fundamentado en la teoría matemática de conjuntos, destaca por tres características principales: su representación tabular, que resulta simple y fácil de implementar; la normalización,
+  que aplica restricciones para evitar la duplicidad de datos; y el uso de operadores poderosos basados en el álgebra y cálculo relacional para manipular la información con eficiencia. \\
+  Almacena datos en tablas enlazando los registros entre tablas a través de un mismo atributo de enlace que se repiten en ambas tablas.\\
 
   \item \textbf{Bases de datos orientadas a objetos (años 80-90):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  Surgieron con el propósito de almacenar la información directamente como objetos (con sus respectivos atributos y métodos) tal como se estructuraba el código en los lenguajes de programación orientados a objetos.
+  Su objetivo principal era eliminar la disparidad técnica que existía entre la lógica de las aplicaciones y el almacenamiento tradicional en tablas relacionales, permitiendo gestionar estructuras de datos complejas de manera más natural. \\
+  
 
   \item \textbf{Bases de datos distribuidas y en la nube:} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  La información se encuentra esparcida y sincronizada en múltiples ubicaciones físicas, servidores o centros de datos, pero se administra de manera unificada para el usuario. 
+  Las soluciones en la nube aprovechan esta arquitectura distribuida para ofrecer una alta disponibilidad, tolerancia a fallos ante posibles caídas de hardware.\\
+  
 
   \item \textbf{Bases de datos NoSQL y NewSQL (Big Data, escalabilidad):} \\
-  ------------------------------------------------------------------- \\
-  -------------------------------------------------------------------
+  NoSQL: Debido a las características de las bases de datos SQL surgió la clase de bases de datos NoSQL. Estas bases de datos poseen un esquema libre y un diseño de esquemas flexibles que pueden manejar una variedad de datos, son escalables y proveen una alta disponibilidad por lo cual son favorables para almacenar Big Data y datos de Internet de las cosas (IoT).\\
+  NewSQL: Esta diseñado de una manera que mantiene el aspecto relacional del RDBMS tradicional y al mismo tiempo incorpora soluciones de las bases de datos NoSQL (escalabilidad y alta disponibilidad). Este modelo es aclamado como el más prometedor sistema de gestión de bases de datos, es así como es mucho más hábil en el manejo de datos que otras bases de datos para los datos de IoT cada vez mayores.
 \end{itemize}
 
 \subsection{Tecnologías actuales}
