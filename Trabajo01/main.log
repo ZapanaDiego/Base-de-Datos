@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.9.3)  3 SEP 2026 08:31
+This is pdfTeX, Version 3.141592653-2.6-1.40.29 (TeX Live 2026/Arch Linux) (preloaded format=pdflatex 2026.9.3)  3 SEP 2026 08:38
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -556,7 +556,7 @@ Package hyperref Info: Link coloring ON on input line 63.
 File: img/logo_web.png Graphic file (type png)
 <use img/logo_web.png>
 Package pdftex.def Info: img/logo_web.png  used on input line 92.
-(pdftex.def)             Requested size: 188.469pt x 188.46732pt.
+(pdftex.def)             Requested size: 157.05649pt x 157.05254pt.
 
 
 LaTeX Font Warning: Font shape `T1/lmr/bx/sc' undefined
@@ -586,10 +586,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 116.
  [1
 
-]
-Overfull \vbox (14.39334pt too high) has occurred while \output is active []
-
- [2{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <./img/logo_web.png>] (./main.toc
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/texmf-dist/fonts/enc/dvips/lm/lm-mathsy.enc} <./img/logo_web.png>] (./main.toc
 LaTeX Info: Redefining \. on input line 1.
 LaTeX Info: Redefining \% on input line 1.
 )
@@ -600,20 +597,15 @@ LaTeX Info: Redefining \% on input line 1.
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.141 \clearpage
+l.140 \clearpage
                  [1
 
 ]
 
 Package hyperref Warning: The anchor of a bookmark and its parent's must not
-(hyperref)                be the same. Added a new anchor on input line 147.
+(hyperref)                be the same. Added a new anchor on input line 146.
 
-
-pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has been already used, duplicate ignored
-<to be read again> 
-                   \relax 
-l.171 \subsection*{3. Justificación}
-                                      [2
+[2
 
 ] [3] [4] [5] [6] [7
 
@@ -641,10 +633,10 @@ Here is how much of TeX's memory you used:
  40 hyphenation exceptions out of 8191
  84i,9n,94p,708b,584s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/share/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/share/texmf-dist/fonts/type1/public/lm/lmsy10.pfb>
-Output written on main.pdf (9 pages, 125481 bytes).
+Output written on main.pdf (8 pages, 125353 bytes).
 PDF statistics:
- 143 PDF objects out of 1000 (max. 8388607)
- 120 compressed objects within 2 object streams
+ 140 PDF objects out of 1000 (max. 8388607)
+ 118 compressed objects within 2 object streams
  18 named destinations out of 1000 (max. 500000)
  130 words of extra memory for PDF output out of 10000 (max. 10000000)
 
