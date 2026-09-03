@@ -1,23 +1,18 @@
 \documentclass[12pt,a4paper]{article}
 
-\usepackage{babel}
-\babelprovide[main,import]{spanish}
+\usepackage[spanish,es-tabla]{babel}
 \usepackage[T1]{fontenc}
 \usepackage{graphicx}
 \usepackage{geometry}
 \usepackage{setspace}
 \usepackage{titlesec}
 \usepackage{xcolor}
-\usepackage[protrusion=true,expansion=false]{microtype}
+\usepackage{lmodern}
+\usepackage{hyperref}
 \usepackage{booktabs}
 \usepackage{enumitem}
 \usepackage{tikz}
 \usetikzlibrary{calc}
-\usepackage[plainpages=false,pdfpagelabels]{hyperref}
-
-% Configuración de nombres en español
-\renewcommand{\tablename}{Tabla}
-\renewcommand{\listtablename}{Índice de tablas}
 
 % Configuración de márgenes
 \geometry{
@@ -38,12 +33,8 @@
   colorlinks=true,
   linkcolor=lasalleblue,
   urlcolor=lasallelight,
-  citecolor=lasalledark,
-  pdfencoding=auto,
-  psdextra
+  citecolor=lasalledark
 }
-
-\setlength{\emergencystretch}{2em}
 
 % Formato de títulos de sección
 \titleformat{\section}
@@ -60,440 +51,290 @@
 
 \setstretch{1.15}
 
-\begin{document}
+\newcommand{\avisoPendiente}[2]{%
+  \noindent\textbf{\color{lasalledark}#1:} \textit{Esta parte se tiene que borrar antes de entregar. #2}\par
+  \smallskip
+  \noindent\texttt{--- --- --- --- --- --- --- --- --- --- --- ---}\par
+  \smallskip
+  \noindent\texttt{*** *** *** *** *** *** *** *** *** *** *** ***}\par
+  \medskip
+}
 
-\pagenumbering{alph}
+\begin{document}
 
 % ==============================================================================
 % CARÁTULA GRUPAL INSTITUCIONAL - UNIVERSIDAD LA SALLE
 % ==============================================================================
 \begin{titlepage}
-
   % Elementos gráficos en segundo plano (TikZ)
   \begin{tikzpicture}[remember picture, overlay]
-
     % Franja vertical tricolor izquierda
-    \fill[color=lasalledark]
-      (current page.north west)
-      rectangle
-      ([xshift=1.2cm]current page.south west);
+    \fill[color=lasalledark] (current page.north west) rectangle ([xshift=1.2cm]current page.south west);
+    \fill[color=lasalleblue] ([xshift=1.2cm]current page.north west) rectangle ([xshift=1.5cm]current page.south west);
+    \fill[color=lasallelight] ([xshift=1.5cm]current page.north west) rectangle ([xshift=1.7cm]current page.south west);
 
-    \fill[color=lasalleblue]
-      ([xshift=1.2cm]current page.north west)
-      rectangle
-      ([xshift=1.5cm]current page.south west);
-
-    \fill[color=lasallelight]
-      ([xshift=1.5cm]current page.north west)
-      rectangle
-      ([xshift=1.7cm]current page.south west);
-
-    % Triángulos decorativos inspirados en el logo
-    \fill[color=lasalleblue!12]
-      ([yshift=-4.5cm]current page.north east)
-      --
-      (current page.north east)
-      --
-      ([xshift=-6.5cm]current page.north east)
-      --
-      cycle;
-
-    \fill[color=lasalleblue!30]
-      ([yshift=-2.8cm]current page.north east)
-      --
-      (current page.north east)
-      --
-      ([xshift=-4.0cm]current page.north east)
-      --
-      cycle;
-
-    \fill[color=lasallelight!50]
-      ([yshift=-1.5cm]current page.north east)
-      --
-      (current page.north east)
-      --
-      ([xshift=-2.2cm]current page.north east)
-      --
-      cycle;
-
+    % Triángulos decorativos inspirados en el logo de la estrella (esquina superior derecha)
+    \fill[color=lasalleblue!12] ([yshift=-4.5cm]current page.north east) -- (current page.north east) -- ([xshift=-6.5cm]current page.north east) -- cycle;
+    \fill[color=lasalleblue!30] ([yshift=-2.8cm]current page.north east) -- (current page.north east) -- ([xshift=-4.0cm]current page.north east) -- cycle;
+    \fill[color=lasallelight!50] ([yshift=-1.5cm]current page.north east) -- (current page.north east) -- ([xshift=-2.2cm]current page.north east) -- cycle;
+    
     % Detalle en la esquina inferior derecha
-    \fill[color=lasalleblue!15]
-      ([xshift=-3cm]current page.south east)
-      --
-      (current page.south east)
-      --
-      ([yshift=2cm]current page.south east)
-      --
-      cycle;
-
+    \fill[color=lasalleblue!15] ([xshift=-3cm]current page.south east) -- (current page.south east) -- ([yshift=2cm]current page.south east) -- cycle;
   \end{tikzpicture}
 
   \vspace*{-0.5cm}
   \hspace*{0.3cm}
-
   \begin{minipage}{0.92\textwidth}
     \centering
 
-    % Logo Institucional
+    % Logo Institucional.
+    % Si mueves este archivo .tex, actualiza la ruta relativa del logo.
     \includegraphics[width=0.48\textwidth]{img/logo_web.png}\par
 
-    \vspace{0.5cm}
+    \vspace{0.6cm}
 
-    {\large\scshape\bfseries\color{lasalledark}
-    Facultad de Ingeniería\par}
-
+    {\large\scshape\bfseries\color{lasalledark} Facultad de Ingeniería\par}
     \vspace{0.15cm}
+    {\large\bfseries\color{lasalleblue} Carrera Profesional de Ingeniería de Software\par}
 
-    {\large\bfseries\color{lasalleblue}
-    Carrera Profesional de Ingeniería de Software\par}
+    \vspace{1.2cm}
 
-    \vspace{1.0cm}
-
-    % Bloque central
+    % Bloque central de Titulación
     {\color{lasalleblue}\rule{\textwidth}{1.8pt}}\\[0.3cm]
-
-    {\Large\bfseries\color{lasalledark}
-    BASE DE DATOS\par}
-
+    {\Large\bfseries\color{lasalledark} BASE DE DATOS\par}
     \vspace{0.3cm}
-
-    {\large\bfseries\color{lasalleblue}
-    Trabajo 01\par}
-
+    {\large\bfseries\color{lasalleblue} Trabajo 01\par}
     \vspace{0.3cm}
-
     {\color{lasalleblue}\rule{\textwidth}{1.8pt}}
 
-    \vspace{1.5cm}
+    \vspace{2.2cm}
 
     % Datos del equipo
     \begin{flushleft}
       \setstretch{1.3}
       \hspace*{0.5cm}
-
       \begin{tabular}{ll}
-
-        \textbf{\color{lasalledark} Asignatura:}
-        & Base de Datos \\[0.15cm]
-
-        \textbf{\color{lasalledark} Docente:}
-        & Ing. R. Fabrizio Calienes Rodríguez \\[0.15cm]
-
-        \textbf{\color{lasalledark} Integrantes:}
-        & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
-
-        &
-        $\bullet$ Sebastian German Gomez Portugal \\
-
-        &
-        $\bullet$ Bran Yames Paz Patatingo \\
-
-        &
-        $\bullet$ Jose David Choquehuanca Calcina \\
-
+        \textbf{\color{lasalledark} Asignatura:} & Base de Datos \\[0.15cm]
+        \textbf{\color{lasalledark} Docente:}    & Ing. R. Fabrizio Calienes Rodríguez \\[0.15cm]
+        \textbf{\color{lasalledark} Integrantes:} & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
+                                                  & $\bullet$ Sebastian German Gomez Portugala \\
+                                                  & $\bullet$ Bran Yames Paz Patatingo \\
+	                                                  & $\bullet$ Jose David Choquehuanca Calcina \\
       \end{tabular}
-
     \end{flushleft}
 
     \vfill
 
     % Pie de carátula
-    
-    {\large\bfseries\color{lasalledark}
-    Arequipa, Perú\par}
-
+    \vspace{2.5cm}
+    {\large\bfseries\color{lasalledark} Arequipa, Perú\par}
     \vspace{0.15cm}
-
-    {\small\color{gray}
-    \today\par}
-
+    {\small\color{gray} \today\par}
   \end{minipage}
-
 \end{titlepage}
 
 
-% ==============================================================================
-% ÍNDICE
-% ==============================================================================
-
 \clearpage
-\pagenumbering{roman}
-
 \tableofcontents
-
 \clearpage
-\pagenumbering{arabic}
 
-
-% ==============================================================================
-% I. INTRODUCCIÓN
-% ==============================================================================
-
-\phantomsection
 \section*{I. Introducción}
 \addcontentsline{toc}{section}{I. Introducción}
 
-
-% ------------------------------------------------------------------------------
-% 1. Contexto histórico
-% ------------------------------------------------------------------------------
-
-\phantomsection
 \subsection*{1. Contexto histórico}
 \addcontentsline{toc}{subsection}{1. Contexto histórico}
 
 \begin{itemize}
+  \item \textbf{La necesidad de almacenar y gestionar información:} \\
+  Desde el surgimiento de las primeras organizaciones humanas, el registro y la conservación de información ha sido una necesidad constante: desde los sistemas de archivo en papel, pasando por los ficheros manuales de tarjetas perforadas, hasta los sistemas de gestión electrónica actuales. Con el crecimiento de las organizaciones y el volumen creciente de datos generados, los métodos tradicionales de almacenamiento se volvieron insuficientes, ineficientes y propensos a errores, lo que motivó el desarrollo de sistemas capaces de organizar, almacenar y recuperar información de manera estructurada, rápida y confiable.
 
-  \item \textbf{La necesidad de almacenar y gestionar información:}
-
-  Desde los primeros sistemas informáticos, el crecimiento de la cantidad de datos generados por las personas y las organizaciones hizo necesario contar con mecanismos que permitieran almacenarlos, organizarlos y recuperarlos de manera eficiente. Inicialmente, la información era registrada mediante archivos independientes, lo que dificultaba su actualización, consulta y mantenimiento. A medida que las empresas comenzaron a manejar mayores volúmenes de información, surgió la necesidad de desarrollar sistemas especializados capaces de administrar los datos de forma estructurada, segura y accesible. De esta necesidad nacieron y evolucionaron las bases de datos, convirtiéndose progresivamente en un componente fundamental de los sistemas informáticos.
-
-  \item \textbf{Importancia de las bases de datos en el desarrollo tecnológico y empresarial:}
-
-  La evolución de las bases de datos ha acompañado directamente el crecimiento de la tecnología y de las organizaciones. Su capacidad para almacenar y relacionar grandes cantidades de información permitió mejorar procesos administrativos, controlar operaciones y facilitar el acceso a información relevante. Con el desarrollo de nuevos modelos y tecnologías, las bases de datos pasaron de utilizarse principalmente para almacenar registros a convertirse en herramientas esenciales para el análisis de información y la toma de decisiones. Actualmente, las empresas dependen de ellas para gestionar clientes, productos, transacciones, operaciones y numerosos procesos internos, por lo que constituyen un elemento importante para el desarrollo tecnológico y empresarial.
-
+  \item \textbf{Importancia de las bases de datos en el desarrollo tecnológico y empresarial:} \\
+  Las bases de datos se consolidaron como un componente esencial de la infraestructura tecnológica moderna, al permitir que las organizaciones centralicen su información, garanticen su integridad y la compartan de forma segura entre distintos sistemas y usuarios. Su desarrollo impulsó avances significativos en áreas como el comercio electrónico, la banca, la salud y la administración pública, convirtiéndose en la base sobre la cual se construyen la mayoría de las aplicaciones y servicios digitales actuales.
 \end{itemize}
 
-
-% ------------------------------------------------------------------------------
-% 2. Objetivos del trabajo
-% ------------------------------------------------------------------------------
-
-\phantomsection
 \subsection*{2. Objetivos del trabajo}
 \addcontentsline{toc}{subsection}{2. Objetivos del trabajo}
 
 \begin{itemize}
+  \item \textbf{Analizar la evolución de las bases de datos:} \\
+  Describir el proceso histórico mediante el cual las bases de datos han evolucionado desde los primeros sistemas de archivos hasta las soluciones distribuidas y en la nube utilizadas en la actualidad.
 
-  \item \textbf{Analizar la evolución de las bases de datos:}
+  \item \textbf{Identificar los modelos más relevantes:} jerárquico, relacional, NoSQL, etc. \\
+  Reconocer y explicar las características principales de los distintos modelos de bases de datos que han marcado hitos importantes en la disciplina, así como sus ventajas y limitaciones respectivas.
 
-  Estudiar el desarrollo histórico de las bases de datos desde sus primeras formas de organización y almacenamiento de información hasta las tecnologías utilizadas actualmente, considerando los principales cambios que permitieron mejorar su capacidad, eficiencia, disponibilidad y escalabilidad.
-
-  \item \textbf{Identificar los modelos más relevantes:} jerárquico, relacional, NoSQL, etc.
-
-  Reconocer y describir los principales modelos de bases de datos que han surgido a lo largo de su evolución, considerando sus características y su importancia dentro del desarrollo de los sistemas de información. Entre ellos se encuentran los modelos jerárquico y de red, el modelo relacional y las alternativas más recientes como NoSQL y NewSQL.
-
-  \item \textbf{Examinar el impacto de las bases de datos en las empresas modernas:}
-
-  Analizar cómo el uso de bases de datos influye actualmente en la gestión de la información, la toma de decisiones y la competitividad empresarial, considerando su aplicación en áreas como marketing, operaciones, logística, recursos humanos y atención al cliente.
-
+  \item \textbf{Examinar el impacto de las bases de datos en las empresas modernas:} \\
+  Evaluar de qué manera las bases de datos han transformado la gestión de la información, la toma de decisiones y la competitividad de las organizaciones en el contexto empresarial actual.
 \end{itemize}
 
-
-% ------------------------------------------------------------------------------
-% 3. Justificación
-% ------------------------------------------------------------------------------
-
-\phantomsection
 \subsection*{3. Justificación}
 \addcontentsline{toc}{subsection}{3. Justificación}
 
 \begin{itemize}
-
-  \item \textbf{Comprender el papel de las bases de datos es clave para la transformación digital y la toma de decisiones:}
-
-  El estudio de las bases de datos resulta fundamental para comprender cómo las organizaciones modernas gestionan la información y la utilizan como recurso estratégico. Una adecuada administración de los datos permite disponer de información organizada, accesible y confiable, facilitando el desarrollo de procesos más eficientes y reduciendo problemas relacionados con la duplicidad o pérdida de información. Asimismo, las bases de datos proporcionan el soporte necesario para herramientas de análisis y sistemas orientados a la toma de decisiones, permitiendo que las empresas utilicen la información disponible para identificar tendencias, mejorar sus procesos y responder de manera más eficiente a las necesidades de sus clientes. Por esta razón, conocer su evolución y su impacto permite comprender su importancia dentro de la transformación digital y del funcionamiento de las empresas actuales.
-
+  \item \textbf{Comprender el papel de las bases de datos es clave para la transformación digital y la toma de decisiones:} \\
+  En un entorno cada vez más digitalizado, las organizaciones dependen de la información como uno de sus activos más valiosos. Comprender el funcionamiento, la evolución y las capacidades de las bases de datos resulta fundamental no solo para los profesionales de la ingeniería de software, sino también para cualquier organización que busque optimizar sus procesos, tomar decisiones basadas en datos y mantenerse competitiva frente a los retos que impone la transformación digital.
 \end{itemize}
-
-
-% ==============================================================================
-% 1. MARCO TEÓRICO
-% ==============================================================================
 
 \section{Marco Teórico}
 
 \subsection{Concepto de base de datos}
 
 \begin{itemize}
+  \item \textbf{Definición y características:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Definición y características:}
-
-  \vspace{2cm}
-
-  \item \textbf{Diferencia entre datos e información:}
-
-  \vspace{2cm}
-
+  \item \textbf{Diferencia entre datos e información:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
 
 \subsection{Tipos de bases de datos}
 
 \begin{itemize}
+  \item \textbf{Modelo jerárquico (años 60):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Modelo jerárquico (años 60):}
+  \item \textbf{Modelo de red:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
+  \item \textbf{Modelo relacional (años 70, Edgar F. Codd):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Modelo de red:}
+  \item \textbf{Bases de datos orientadas a objetos (años 80-90):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
+  \item \textbf{Bases de datos distribuidas y en la nube:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Modelo relacional (años 70, Edgar F. Codd):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Bases de datos orientadas a objetos (años 80-90):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Bases de datos distribuidas y en la nube:}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Bases de datos NoSQL y NewSQL (Big Data, escalabilidad):}
-
-  \vspace{1.5cm}
-
+  \item \textbf{Bases de datos NoSQL y NewSQL (Big Data, escalabilidad):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
 
 \subsection{Tecnologías actuales}
 
 \begin{itemize}
+  \item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{SQL y RDBMS (Oracle, MySQL, SQL Server, PostgreSQL):}
+  \item \textbf{NoSQL (MongoDB, Cassandra, Redis):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
+  \item \textbf{Cloud Databases (AWS, Azure, Google Cloud):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{NoSQL (MongoDB, Cassandra, Redis):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Cloud Databases (AWS, Azure, Google Cloud):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:}
-
-  \vspace{1.5cm}
-
+  \item \textbf{Inteligencia Artificial y bases de datos: análisis predictivo:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
-
-% ==============================================================================
-% 2. DESARROLLO / EVOLUCIÓN HISTÓRICA
-% ==============================================================================
 
 \section{Desarrollo / Evolución histórica}
 
 \begin{itemize}
+  \item \textbf{Década de 1960:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Década de 1960:}
+  \item \textbf{Década de 1970:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{2cm}
+  \item \textbf{Década de 1980-1990:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Década de 1970:}
+  \item \textbf{Década de 2000:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{2cm}
-
-  \item \textbf{Década de 1980-1990:}
-
-  \vspace{2cm}
-
-  \item \textbf{Década de 2000:}
-
-  \vspace{2cm}
-
-  \item \textbf{Década de 2010 en adelante:}
-
-  \vspace{2cm}
-
+  \item \textbf{Década de 2010 en adelante:} \\
+  ------------------------------------------------------------------- \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
-
-% ==============================================================================
-% 3. IMPACTO EN LAS EMPRESAS MODERNAS
-% ==============================================================================
 
 \section{Impacto en las empresas modernas}
 
 \subsection{Impacto en la gestión de la información}
 
 \begin{itemize}
+  \item \textbf{Centralización y accesibilidad de datos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Centralización y accesibilidad de datos:}
+  \item \textbf{Seguridad y control de acceso:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
-
-  \item \textbf{Seguridad y control de acceso:}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Reducción de redundancia y errores:}
-
-  \vspace{1.5cm}
-
+  \item \textbf{Reducción de redundancia y errores:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
 
 \subsection{Impacto en la toma de decisiones}
 
 \begin{itemize}
+  \item \textbf{Business Intelligence y Data Analytics:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Business Intelligence y Data Analytics:}
+  \item \textbf{Toma de decisiones basada en datos (Data-Driven Decision Making):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
-
-  \item \textbf{Toma de decisiones basada en datos (Data-Driven Decision Making):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Casos de uso: marketing, operaciones, logística, recursos humanos:}
-
-  \vspace{1.5cm}
-
+  \item \textbf{Casos de uso: marketing, operaciones, logística, recursos humanos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
-
 
 \subsection{Impacto en la competitividad empresarial}
 
 \begin{itemize}
+  \item \textbf{Personalización de servicios:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Personalización de servicios:}
+  \item \textbf{Mejora en la relación con el cliente (CRM):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \vspace{1.5cm}
+  \item \textbf{Optimización de procesos y reducción de costos:} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Mejora en la relación con el cliente (CRM):}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Optimización de procesos y reducción de costos:}
-
-  \vspace{1.5cm}
-
-  \item \textbf{Innovación en modelos de negocio (ej: Netflix, Amazon):}
-
-  \vspace{1.5cm}
-
+  \item \textbf{Innovación en modelos de negocio (ej: Netflix, Amazon):} \\
+  ------------------------------------------------------------------- \\
+  -------------------------------------------------------------------
 \end{itemize}
 
-
-% ==============================================================================
-% REFERENCIAS
-% ==============================================================================
-
 \clearpage
-
-\phantomsection
 \section*{Referencias}
 \addcontentsline{toc}{section}{Referencias}
 
 \begin{itemize}
+  \item \textbf{Referencia 1:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
 
-  \item \textbf{Referencia 1:}
+  \item \textbf{Referencia 2:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
 
-  \vspace{0.5cm}
-
-  \item \textbf{Referencia 2:}
-
-  \vspace{0.5cm}
-
-  \item \textbf{Referencia 3:}
-
-  \vspace{0.5cm}
-
+  \item \textbf{Referencia 3:} Autor(es), título, año, editorial o sitio web, enlace. \\
+  -------------------------------------------------------------------
 \end{itemize}
+
 
 \end{document}

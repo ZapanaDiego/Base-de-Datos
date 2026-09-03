@@ -1,0 +1,30 @@
+# Archivos auxiliares principales de compilación
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.toc
+*.synctex.gz
+
+# Archivos de bibliografía e índices (BibTeX / BibLaTeX / MakeIndex)
+*.bbl
+*.bcf
+*.blg
+*.run.xml
+*.idx
+*.ilg
+*.ind
+*.ist
+*.glg
+*.glo
+*.gls
+
+# Archivos temporales de vista previa y otros
+*.nav
+*.snm
+*.vrb
+*.xdv
+
+# Documento PDF generado final
+*.pdf
