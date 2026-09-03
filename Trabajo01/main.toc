@@ -10,6 +10,5 @@
 \contentsline {section}{\numberline {2}Desarrollo / Evolución histórica}{6}{section.2}%
 \contentsline {section}{\numberline {3}Impacto en las empresas modernas}{7}{section.3}%
 \contentsline {subsection}{\numberline {3.1}Impacto en la gestión de la información}{7}{subsection.3.1}%
-\contentsline {subsection}{\numberline {3.2}Impacto en la toma de decisiones}{7}{subsection.3.2}%
-\contentsline {subsection}{\numberline {3.3}Impacto en la competitividad empresarial}{7}{subsection.3.3}%
-\contentsline {section}{Referencias}{9}{subsection.3.3}%
+\contentsline {subsection}{\numberline {3.2}Impacto en la toma de decisiones}{8}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Impacto en la competitividad empresarial}{9}{subsection.3.3}%
