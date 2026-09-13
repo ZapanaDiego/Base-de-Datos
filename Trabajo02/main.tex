@@ -264,19 +264,40 @@ Jose Carlos Chino Nina &
 \porCompletar{Sebastian German Gomez Portugala}{4}
 
 \subsection{Herramientas y tecnologías}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+\begin{itemize}
+    \item Almacenamiento operacional: Apache Cassandra para datos de reproducción, historial y metadatos de alto volumen de escritura/lectura.
+    \item Caché distribuido: EVCache (basado en Memcached) frente a Cassandra para lecturas ultrarrápidas y absorción de picos.
+    \item Kafka/Keystone para eventos en tiempo real; Apache Iceberg en S3 como lago; Spark/Flink para procesamiento batch/streaming y feature stores.
+    \item Bases complementarias: MySQL para facturación y datos transaccionales; Elasticsearch para búsqueda; Redis para estructuras complejas y hot paths.
+\end{itemize}
 
 \subsection{Métricas de rendimiento y escalabilidad}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+\begin{itemize}
+    \item Throughput masivo: EVCache maneja ~2 billones de solicitudes diarias con latencias normales de 1–5 ms y 99 porciento de peticiones bajo 20 ms.
+    \item Escrituras sostenidas: Cassandra soporta picos de >1 millón de escrituras/segundo en benchmarks históricos y escalado multi-AZ para disponibilidad.
+    \item Mejoras de latencia: Migraciones a Cassandra+EVCache redujeron latencia mediana de escritura de 113 ms a 25 ms y permitieron >200 Gbps de throughput de lectura sostenido en eventos en vivo.
+\end{itemize}
 
 \subsection{Seguridad y cumplimiento}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+\begin{itemize}
+    \item Cifrado y control de acceso: Cifrado en tránsito/reposo, autenticación multifactor y gestión de claves con servicios auditados; segmentación de redes y monitoreo SIEM para detección de intrusiones.
+    \item Privacidad y gobernanza: Políticas de retención, consentimiento y minimización de datos personales en pipelines de analítica; auditorías periódicas de accesos privilegiados.
+
+\end{itemize}
 
 \subsection{Impacto en el negocio}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+\begin{itemize}
+    \item Experiencia y retención: Las recomendaciones y conteos en tiempo real (ej. “top 10”) mejoran descubrimiento de contenido y engagement, clave para reducir churn.
+    \item Eficiencia operativa: Cachear 90 porciento de lecturas evita “tormentas” sobre el origen y reduce costos de ancho de banda y cómputo durante lanzamientos y eventos en vivo.
+    \item Innovación rápida: Arquitecturas de microservicios + observabilidad permiten A/B testing a gran escala y decisiones de producto basadas en datos.
+\end{itemize}
 
 \subsection{Retos y lecciones aprendidas}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+\begin{itemize}
+    \item Consistencia vs disponibilidad: Se adopta consistencia eventual en contadores y recomendaciones para priorizar disponibilidad y latencia; se acepta ligera desactualización en lecturas.
+    \item Resiliencia: Prácticas de chaos engineering (ej. Chaos Monkey) y replicación multi-AZ/region previenen caídas y mejoran la recuperación ante fallos.
+    \item Una capa de caché distribuido (EVCache) frente a una base durable (Cassandra) es patrón probado para escalar lecturas masivas sin degradar escrituras.
+\end{itemize}
 
 % ==============================================================================
 % 4. CASO 3: BANCO DIGITAL
