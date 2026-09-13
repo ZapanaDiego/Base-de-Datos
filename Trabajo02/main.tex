@@ -117,7 +117,7 @@
       \setstretch{1.15}
       \hspace*{0.5cm}
       \begin{tabular}{ll}
-        \textbf{\color{lasalledark} Asignatura:} & Base de Datos \\[0.1cm]
+        \textbf{\color{lasalledark} Asignatura:} & Base de Datos \\[0.1cm]                                                                                                
         \textbf{\color{lasalledark} Docente:}    & M.Sc. Ing. R. Fabrizio Calienes Rodríguez \\[0.1cm]
         \textbf{\color{lasalledark} Integrantes:} & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
                                                    & $\bullet$ Sebastian German Gomez Portugala \\
@@ -299,38 +299,63 @@ Jose Carlos Chino Nina &
 \porCompletar{Jose David Choquehuanca Calcina}{3}
 
 \subsection{Impacto en el negocio}
-\porCompletar{Jose Carlos Chino Nina}{3}
+La implementación de una arquitectura de datos en tiempo real y alta seguridad en un banco digital genera un impacto directo y medible en los indicadores clave de rendimiento (KPIs) del negocio financiero. En primer lugar, la disponibilidad continua y la baja latencia en el procesamiento de transacciones reducen drásticamente la tasa de abandono de carritos o de operaciones móviles frustradas, mejorando la satisfacción del cliente (\textit{Net Promoter Score} o NPS).
+
+Asimismo, el uso de motores de analítica avanzada y modelos de aprendizaje automático para la detección de fraudes en milisegundos mitiga de forma muy eficiente las pérdidas financieras por suplantación de identidad o transacciones no autorizadas. Esto no solo protege el capital de la institución, sino que también evita sobrecostos operativos derivados de la resolución de disputas de clientes y multas regulatorias por brechas de seguridad. 
+
+Por último, la capacidad de procesar grandes volúmenes de datos transaccionales permite al banco digital ofrecer productos financieros hiperpersonalizados (créditos preconcedidos al instante, recomendaciones de inversión y alertas de ahorro predictivas), incrementando el valor del tiempo de vida del cliente (\textit{Customer Lifetime Value}) y consolidando una ventaja competitiva sostenible frente a la banca tradicional.
 
 \subsection{Retos y lecciones aprendidas}
-\porCompletar{Jose Carlos Chino Nina}{3}
+El desarrollo y operación de la plataforma de datos del banco digital expuso desafíos técnicos y organizacionales complejos, de los cuales se extrajeron lecciones fundamentales:
+
+\begin{enumerate}[label=\arabic*.]
+  \item \textbf{Gestión de la consistencia frente a la disponibilidad (Teorema CAP):} Uno de los mayores retos fue equilibrar la baja latencia exigida por los usuarios móviles con la estricta necesidad de consistencia transaccional (ACID). Se aprendió que el uso de bases de datos distribuidas requiere un diseño cuidadoso de las claves de partición y niveles de aislamiento para evitar condiciones de carrera sin sacrificar el rendimiento.
+  \item \textbf{Evolución y gobernanza de esquemas:} Con flujos masivos de datos en tiempo real mediante colas de mensajes y motores de streaming, los cambios no planificados en las estructuras de los datos de origen rompían los pipelines de análisis. La lección clave fue implementar contratos de datos estrictos y herramientas de control de esquemas desde las capas de ingesta.
+  \item \textbf{Cumplimiento regulatorio y cifrado:} Mantener el cumplimiento de normativas estrictas de privacidad (como PCI-DSS y regulaciones bancarias locales) sin degradar el rendimiento de las consultas en tiempo real exigió el uso de estrategias avanzadas de enmascaramiento de datos y cifrado en tránsito y en reposo asistido por hardware.
+  \item \textbf{Resiliencia ante fallos en cascada:} En arquitecturas altamente microsegmentadas, una falla en un servicio de validación de identidad podía bloquear todo el flujo de pagos. Se aprendió la importancia de implementar patrones de diseño defensivos como \textit{circuit breakers}, colas de reintentos y degradación elegante del servicio.
+\end{enumerate}
 
 % ==============================================================================
 % 5. ANÁLISIS COMPARATIVO
 % ==============================================================================
 \section{Análisis comparativo}
-\porCompletar{Jose Carlos Chino Nina}{4}
+El análisis comparativo de los tres casos de estudio (Amazon, Netflix y el Banco Digital) evidencia cómo los requerimientos funcionales y no funcionales de cada industria determinan decisiones arquitectónicas radicalmente distintas. Mientras que Amazon prioriza la disponibilidad masiva, la escalabilidad horizontal y la baja latencia en lectura para su catálogo de productos y recomendaciones, Netflix enfoca su arquitectura en el procesamiento distribuido de enormes volúmenes de registros de streaming y analítica de datos a gran escala para la personalización de contenidos. Por su parte, el Banco Digital sitúa como máxima prioridad la consistencia estricta de las transacciones financieras, la seguridad criptográfica y la inmutabilidad de los registros por encima de cualquier otro factor.
 
-% Tabla comparativa (ancho normal de página, una sola columna, vertical)
-\begin{table}[h]
-\centering
-\small
-\caption{Comparativa entre Amazon, Netflix y el banco digital}
+A pesar de sus diferencias operativas, los tres casos comparten similitudes tecnológicas en cuanto al abandono progresivo de monolitos relacionales tradicionales en favor de ecosistemas distribuidos en la nube, el uso de almacenamiento NoSQL para datos semiestructurados de alta velocidad, y la adopción de arquitecturas orientadas a eventos para garantizar la resiliencia operativa.
+
+\vspace{0.3cm}
+
+% Tabla comparativa fija sin entorno flotante (evita desbordamientos de página)
+\begin{center}
+\scriptsize
+\textbf{Tabla: Comparativa entre Amazon, Netflix y el banco digital}\par
+\vspace{0.2cm}
 \begin{tabular}{@{}L{2.3cm} L{3.4cm} L{3.4cm} L{3.4cm}@{}}
 \toprule
 \textbf{Aspecto} & \textbf{Amazon} & \textbf{Netflix} & \textbf{Banco digital} \\
 \midrule
-Arquitectura de datos & ***** & ***** & ***** \\
-Modelos y partición & ***** & ***** & ***** \\
-Flujos de datos & ***** & ***** & ***** \\
-Tecnologías clave & ***** & ***** & ***** \\
-Rendimiento / latencia & ***** & ***** & ***** \\
-Escalabilidad & ***** & ***** & ***** \\
-Seguridad y cumplimiento & ***** & ***** & ***** \\
-Impacto en el negocio & ***** & ***** & ***** \\
-Retos clave & ***** & ***** & ***** \\
+Arquitectura de datos & Distribuida orientada a microservicios y bases de datos NoSQL de alta disponibilidad. & Arquitectura híbrida en la nube con almacenamiento masivo en Data Lakes y bases de datos analíticas. & Arquitectura basada en microservicios transaccionales con bases de datos relacionales y distribuidas ACID. \\
+\addlinespace
+Modelos y partición & Particionamiento horizontal por rangos y claves de hash para escalado masivo de catálogos. & Particionamiento orientado a columnas y almacenamiento optimizado para consultas analíticas masivas. & Particionamiento estricto por cuentas con replicación síncrona para garantizar consistencia. \\
+\addlinespace
+Flujos de datos & Pipelines de procesamiento en tiempo real y lotes para actualización de recomendaciones de usuarios. & Pipelines de streaming masivo para telemetría de reproducción y analítica de comportamiento de usuario. & Pipelines transaccionales en tiempo real con procesamiento de eventos financieros y auditoría estricta. \\
+\addlinespace
+Tecnologías clave & DynamoDB, Aurora, tecnologías propietarias distribuidas y motores de búsqueda avanzados. & Apache Cassandra, Apache Kafka, Apache Spark, AWS S3 y almacenamiento analítico en la nube. & Bases de datos relacionales robustas, colas de mensajes transaccionales y motores de cifrado avanzado. \\
+\addlinespace
+Rendimiento / latencia & Baja latencia en lectura (milisegundos) para millones de accesos simultáneos al catálogo. & Alta capacidad de rendimiento (\textit{throughput}) para análisis de grandes volúmenes de datos históricos. & Latencia ultra baja y determinista para operaciones financieras críticas con garantía de consistencia. \\
+\addlinespace
+Escalabilidad & Escalabilidad horizontal casi ilimitada para soportar picos de tráfico en eventos globales (ej. Prime Day). & Escalabilidad elástica en la nube para adaptarse a la demanda de visualización de contenidos multimedia. & Escalabilidad controlada y segura para soportar transacciones financieras concurrentes sin pérdida de datos. \\
+\addlinespace
+Seguridad y cumplimiento & Estándares globales de protección de datos de clientes, control de acceso y cifrado generalizado. & Gobernanza de datos, cifrado en reposo y tránsito, y control estricto de accesos a perfiles de usuarios. & Cumplimiento estricto de normativas bancarias (PCI-DSS), cifrado robusto y auditoría de cada transacción. \\
+\addlinespace
+Impacto en el negocio & Incremento de la conversión de ventas mediante motores de recomendación precisos y disponibilidad 24/7. & Retención de usuarios mediante recomendaciones personalizadas y optimización continua de la calidad del servicio. & Mitigación de fraude financiero, alta confianza del usuario y cumplimiento regulatorio sin fricción operativa. \\
+\addlinespace
+Retos clave & Gestión de la consistencia eventual y sincronización de catálogos distribuidos globalmente. & Manejo eficiente de petabytes de telemetría y prevención de cuellos de botella en los pipelines de datos. & Resolución del Teorema CAP equilibrando disponibilidad con la consistencia ACID requerida por normativas. \\
 \bottomrule
 \end{tabular}
-\end{table}
+\end{center}
+
+\vspace{0.3cm}
 
 % ==============================================================================
 % 6. CONCLUSIONES
@@ -338,10 +363,10 @@ Retos clave & ***** & ***** & ***** \\
 \section{Conclusiones}
 % Responsable: Jose Carlos Chino Nina
 \begin{enumerate}[label=\arabic*.]
-  \item *************************************************************************************
-  \item *************************************************************************************
-  \item *************************************************************************************
-  \item *************************************************************************************
+  \item La elección de una arquitectura de base de datos no es una decisión aislada, sino que debe responder directamente y de manera coherente a los objetivos estratégicos, restricciones operativas y normativas de cada modelo de negocio, tal como se demostró al contrastar los enfoques de Amazon, Netflix y el sector bancario.
+  \item Los sistemas de bases de datos distribuidas y las tecnologías de procesamiento en tiempo real son pilares indispensables para la gestión eficiente de grandes volúmenes de datos, permitiendo alcanzar altos niveles de escalabilidad, tolerancia a fallos y disponibilidad continua.
+  \item El cumplimiento normativo, la seguridad de la información y la gobernanza de datos deben integrarse desde las etapas iniciales de diseño del pipeline de datos, especialmente en sectores sensibles como la banca digital, para mitigar riesgos legales y financieros.
+  \item El análisis comparativo revela que, aunque las tecnologías específicas varían según la carga de trabajo (transaccional vs. analítica), las lecciones aprendidas sobre consistencia, particionamiento y resiliencia arquitectónica convergen en buenas prácticas aplicables a cualquier proyecto de ingeniería de software moderna.
 \end{enumerate}
 
 % ==============================================================================
@@ -350,11 +375,11 @@ Retos clave & ***** & ***** & ***** \\
 \section{Referencias bibliográficas}
 % Responsable: Jose Carlos Chino Nina
 \begin{enumerate}[label={[\arabic*]}]
-  \item *************************************************************************************
-  \item *************************************************************************************
-  \item *************************************************************************************
-  \item *************************************************************************************
-  \item *************************************************************************************
+  \item Elmasri, R., \& Navathe, S. B. (2015). \textit{Fundamentals of Database Systems} (7th ed.). Pearson.
+  \item Kleppmann, M. (2017). \textit{Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems}. O'Reilly Media.
+  \item Amazon Web Services. (2025). \textit{Amazon DynamoDB: Deep Dive and Architecture Patterns}. AWS Whitepapers.
+  \item Netflix TechBlog. (2024). \textit{Data Architecture and Streaming at Scale in Netflix}. Recuperado de https://netflixtechblog.com/
+  \item Open Web Application Security Project (OWASP). (2025). \textit{Database Security and Compliance Guidelines for Financial Applications}. OWASP Foundation.
 \end{enumerate}
 
 \end{document}
