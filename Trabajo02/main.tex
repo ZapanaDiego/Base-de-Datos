@@ -136,64 +136,6 @@
   \end{minipage}
 \end{titlepage}
 
-% ==============================================================================
-% REPARTO EQUITATIVO DE TRABAJO (25 bloques de contenido / 5 integrantes
-% = 5 bloques cada uno). Bórrala antes de entregar si el docente no la pide;
-% queda solo como referencia interna del equipo.
-% ==============================================================================
-\section*{Reparto de trabajo del equipo (5 partes por integrante)}
-\begin{center}
-\small
-\begin{tabular}{@{}p{4cm}p{10.5cm}@{}}
-\toprule
-\textbf{Integrante} & \textbf{Partes asignadas} \\
-\midrule
-Diego Eduardo Zapana Choquehuayta &
-1. Introducción \newline
-2. Caso 1 (Amazon) -- Arquitectura de datos \newline
-3. Caso 1 -- Flujos de datos y pipelines \newline
-4. Caso 1 -- Herramientas y tecnologías \newline
-5. Caso 1 -- Métricas de rendimiento y escalabilidad \\
-\addlinespace
-Sebastian German Gomez Portugala &
-1. Caso 1 -- Seguridad y cumplimiento \newline
-2. Caso 1 -- Impacto en el negocio \newline
-3. Caso 1 -- Retos y lecciones aprendidas \newline
-4. Caso 2 (Netflix) -- Arquitectura de datos \newline
-5. Caso 2 -- Flujos de datos y pipelines \\
-\addlinespace
-Bran Yames Paz Patatingo &
-1. Caso 2 -- Herramientas y tecnologías \newline
-2. Caso 2 -- Métricas de rendimiento y escalabilidad \newline
-3. Caso 2 -- Seguridad y cumplimiento \newline
-4. Caso 2 -- Impacto en el negocio \newline
-5. Caso 2 -- Retos y lecciones aprendidas \\
-\addlinespace
-Jose David Choquehuanca Calcina &
-1. Caso 3 (Banco digital) -- Arquitectura de datos \newline
-2. Caso 3 -- Flujos de datos y pipelines \newline
-3. Caso 3 -- Herramientas y tecnologías \newline
-4. Caso 3 -- Métricas de rendimiento y escalabilidad \newline
-5. Caso 3 -- Seguridad y cumplimiento \\
-\addlinespace
-Jose Carlos Chino Nina &
-1. Caso 3 -- Impacto en el negocio \newline
-2. Caso 3 -- Retos y lecciones aprendidas \newline
-3. Análisis comparativo (texto + tabla) \newline
-4. Conclusiones \newline
-5. Bibliografía \\
-\bottomrule
-\end{tabular}
-\end{center}
-
-\vspace{0.3cm}
-\noindent\textit{Nota: el Resumen ejecutivo se completa entre todo el equipo al final, cuando ya esté redactado el resto del informe.}
-
-\newpage
-
-\tableofcontents
-\newpage
-
 
 % ==============================================================================
 % 1. INTRODUCCIÓN
@@ -251,9 +193,10 @@ garantizar alta disponibilidad.
 
 Para las señales que requieren respuesta casi instantánea, Amazon complementa
 esta arquitectura con Amazon MemoryDB, una base de datos en memoria compatible
-con Redis, organizada en particiones (\textit{shards}) con una réplica
-primaria y hasta cinco réplicas de lectura por partición, lo que le permite
-ofrecer latencias de lectura del orden de microsegundos.
+con Redis (y, en su evolución más reciente, también con Valkey), organizada
+en particiones (\textit{shards}) con una réplica primaria y hasta cinco
+réplicas de lectura por partición, lo que le permite ofrecer latencias de
+lectura del orden de microsegundos.
 
 \subsection{Flujos de datos y pipelines}
 % Responsable: Diego Eduardo Zapana Choquehuayta
@@ -317,16 +260,24 @@ los distintos \textit{DAGs} (flujos de tareas) del \textit{pipeline}.
 % Responsable: Diego Eduardo Zapana Choquehuayta
 DynamoDB ofrece un rendimiento uniforme, con tiempos de respuesta de
 milisegundos de un solo dígito, independientemente de la escala del sistema.
-Durante eventos de tráfico extremadamente alto, como el Prime Day, la base de
-datos ha llegado a atender picos de cientos de miles de solicitudes por
-segundo sobre tablas que superan los 200\,TB de información. Por su parte,
-MemoryDB logra tiempos de lectura del orden de microsegundos y tiempos de
-escritura de pocos milisegundos, con un nivel de disponibilidad cercano al
-99{,}999\,\%.
+Durante el Prime Day 2024, según cifras publicadas oficialmente por AWS,
+DynamoDB mantuvo esos tiempos de respuesta de milisegundos de un solo dígito
+mientras alcanzaba un pico de 146 millones de solicitudes por segundo,
+atendiendo decenas de billones (\textit{tens of trillions}) de llamadas a su
+API a lo largo del evento; esta cifra representa un crecimiento sostenido
+frente a los 126 millones de solicitudes por segundo registrados en el Prime
+Day 2023 [\ref{aws-primeday2024}]. Por su parte, MemoryDB logra tiempos de
+lectura del orden de microsegundos y tiempos de escritura de un solo dígito de
+milisegundos; en su configuración estándar Multi-AZ ofrece un acuerdo de
+nivel de servicio (SLA) de disponibilidad del 99{,}99\,\%, mientras que su
+variante más reciente, MemoryDB Multi-Region, puede alcanzar hasta un
+99{,}999\,\% de disponibilidad [\ref{aws-memorydb}].
 
-En cuanto al volumen de datos, el \textit{data lake} de Amazon almacena
-aproximadamente 25\,petabytes de información en S3, sobre los cuales se
-entrenan y reentrenan periódicamente los modelos de recomendación. Tanto AWS
+En cuanto al volumen de datos, el \textit{data lake} de Amazon en S3 almacena,
+según estimaciones del sector, un volumen del orden de decenas de petabytes de
+información, sobre los cuales se entrenan y reentrenan periódicamente los
+modelos de recomendación (Amazon no publica esta cifra exacta, por lo que debe
+tomarse como una magnitud referencial y no como un dato oficial). Tanto AWS
 Glue como Amazon SageMaker cuentan con mecanismos de autoescalado que permiten
 adaptar automáticamente los recursos de cómputo según el volumen de datos y la
 demanda de cada mercado o región, optimizando además los costos al utilizar
@@ -347,9 +298,9 @@ Amazon implementa una arquitectura de seguridad por capas para salvaguardar sus 
 % Responsable: Sebastian German Gomez Portugala
 El motor de recomendaciones impulsado por bases de datos distribuidas constituye el pilar comercial de Amazon:
 \begin{itemize}
-    \item \textbf{Generación de ingresos directos:} Se calcula que aproximadamente el 35\% de las ventas totales del comercio electrónico de Amazon proviene de las recomendaciones personalizadas en tiempo real ("Los clientes que compraron esto también compraron...").
+    \item \textbf{Generación de ingresos directos:} Diversos análisis del sector, que citan un estudio de McKinsey, estiman que hasta un 35\% de las ventas de Amazon estarían asociadas a sus recomendaciones personalizadas en tiempo real ("Los clientes que compraron esto también compraron..."). Es importante precisar que Amazon nunca ha confirmado oficialmente esta cifra --se trata de una estimación ampliamente repetida en la industria, cuyo origen exacto no siempre es verificable-- por lo que debe presentarse como una referencia y no como un dato corporativo oficial [\ref{mckinsey-personalization}].
     \item \textbf{Aumento de la tasa de conversión:} Incremento del valor promedio del carrito mediante sugerencias contextuales de ultra baja latencia durante el proceso de compra (\textit{cross-selling} y \textit{up-selling}).
-    \item \textbf{Continuidad operativa masiva:} Alta disponibilidad del 99.999\% (\textit{five nines}) asegurada durante picos extremos de tráfico como Prime Day y Black Friday, manteniendo tiempos de respuesta inferiores a 10 milisegundos.
+    \item \textbf{Continuidad operativa masiva:} Alta disponibilidad y bajos tiempos de respuesta asegurados durante picos extremos de tráfico como Prime Day y Black Friday, según lo evidenciado por las métricas de DynamoDB reportadas por AWS [\ref{aws-primeday2024}].
 \end{itemize}
 
 \subsection{Retos y lecciones aprendidas}
@@ -377,31 +328,41 @@ La infraestructura de datos de Netflix responde a una arquitectura híbrida y di
 
 \subsection{Flujos de datos y pipelines}
 % Responsable: Sebastian German Gomez Portugala
-El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios divididos en dos vías principales:
+El ecosistema de procesamiento de Netflix, conocido internamente como
+\textit{Keystone}, gestiona la ingesta y el enrutamiento de eventos en dos
+vías principales:
 \begin{itemize}
-    \item \textbf{Ingesta distribuida (Keystone Pipeline):} Plataforma capaz de capturar e ingerir más de 500 mil millones de eventos diarios (clics, pausas, calidad de video) utilizando Apache Kafka como bus central de mensajería altamente escalable.
-    \item \textbf{Procesamiento en tiempo real (Stream Processing):} Motores basados en Apache Flink y Spark Streaming que analizan la telemetría del usuario al instante para ajustar dinámicamente el bitrate de streaming y alimentar sistemas de recomendación reactivos.
-    \item \textbf{Procesamiento por lotes (Batch Analytics):} Procesos ejecutados sobre Apache Spark y Trino para entrenar periódicamente algoritmos de aprendizaje automático que determinan las carátulas personalizadas (\textit{artwork personalization}) y la disposición del catálogo en pantalla.
+    \item \textbf{Ingesta distribuida (Keystone Pipeline):} Plataforma que captura e ingiere eventos de usuario (clics, pausas, calidad de video) utilizando Apache Kafka como bus central de mensajería altamente escalable, a través de clústeres de tipo \textit{Fronting Kafka} y \textit{Consumer Kafka}.
+    \item \textbf{Procesamiento en tiempo real (Stream Processing):} Motores basados en Apache Flink (que ha sustituido progresivamente a Samza) y Spark Streaming, que analizan la telemetría del usuario al instante para ajustar dinámicamente el bitrate de streaming y alimentar sistemas de recomendación reactivos.
+    \item \textbf{Procesamiento por lotes (Batch Analytics):} Procesos ejecutados sobre Apache Spark y Trino/Presto para entrenar periódicamente algoritmos de aprendizaje automático que determinan las carátulas personalizadas (\textit{artwork personalization}) y la disposición del catálogo en pantalla.
 \end{itemize}
 
 \subsection{Herramientas y tecnologías}
 % Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
     \item \textbf{Almacenamiento operativo:} Apache Cassandra, una base de datos NoSQL columnar y distribuida en modelo \textit{peer-to-peer}, utilizada para datos de usuarios, facturación y recomendaciones, con replicación multirregión.
-    \item \textbf{Ingesta de eventos:} Apache Kafka como bus central de mensajería, capaz de absorber picos de hasta 8 millones de eventos por segundo.
+    \item \textbf{Ingesta de eventos:} Apache Kafka como bus central de mensajería, desplegado en decenas de clústeres con miles de \textit{brokers} en conjunto.
     \item \textbf{Procesamiento:} Apache Flink para el procesamiento en \textit{streaming} (grafo de relaciones, detección de fraude, personalización) y Apache Spark sobre Amazon EMR para el procesamiento por lotes.
-    \item \textbf{Analítica interactiva:} Presto, ejecutado sobre clústeres EMR y optimizado para consultas SQL sobre archivos Parquet almacenados en S3.
+    \item \textbf{Analítica interactiva:} Presto/Trino, ejecutado sobre clústeres EMR y optimizado para consultas SQL sobre archivos Parquet almacenados en S3.
     \item \textbf{Tablas transaccionales:} Apache Iceberg sobre S3, alimentado mediante el sistema interno \textit{Move Data}, que transforma los respaldos (SSTables) de Cassandra en \textit{DataFrames} de Spark.
     \item \textbf{Infraestructura y monitoreo:} clústeres EMR dinámicos, Amazon S3, CloudWatch, IAM y herramientas internas de observabilidad como Atlas.
 \end{itemize}
 
 \subsection{Métricas de rendimiento y escalabilidad}
 % Responsable: Bran Yames Paz Patatingo
+Las cifras de escala de Netflix han crecido de forma sostenida: en 2016, la
+plataforma Keystone ingería alrededor de 700\,mil millones de eventos únicos
+al día (con picos de hasta 11 millones de eventos por segundo, cerca de
+24\,GB/s, y aproximadamente 1,3\,PB de datos diarios); para 2017 esa cifra
+había alcanzado 1 billón (\textit{trillion}) de eventos diarios, y fuentes
+técnicas recientes reportan que actualmente Netflix procesa más de 2 billones
+(\textit{trillion}) de eventos por día a través de Kafka y Flink
+[\ref{netflix-keystone}, \ref{netflix-kafka-scale}]. Dado que estas cifras evolucionan
+año a año y no todas provienen de publicaciones oficiales recientes de
+Netflix, se recomienda citarlas siempre indicando el año de la fuente.
 \begin{itemize}
-    \item \textbf{Volumen de eventos:} Netflix procesa aproximadamente 500 mil millones de eventos y 1,3\,PB de datos al día.
-    \item \textbf{Picos de ingestión:} hasta 8 millones de eventos por segundo (~24\,GB/s) durante los momentos de mayor tráfico.
     \item \textbf{Escalabilidad de Cassandra:} soporta cientos de petabytes gracias a sus réplicas multi-datacenter.
-    \item \textbf{Consultas analíticas:} los clústeres dinámicos de Presto/EMR permiten realizar consultas interactivas sobre los cerca de 25\,PB almacenados en S3.
+    \item \textbf{Consultas analíticas:} los clústeres dinámicos de Presto/Trino sobre EMR permiten realizar consultas interactivas sobre grandes volúmenes de datos almacenados en S3.
     \item \textbf{Arquitectura desacoplada:} el cómputo (EMR) se escala de forma independiente al almacenamiento (S3), lo que permite ajustar cada componente según la demanda real.
 \end{itemize}
 
@@ -418,8 +379,8 @@ El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios d
 \subsection{Impacto en el negocio}
 % Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item \textbf{Retención de usuarios:} entre el 75\% y el 80\% de las horas vistas en Netflix son impulsadas por las recomendaciones personalizadas.
-    \item \textbf{Ahorro estimado:} este motor de personalización representa un valor retenido cercano a los mil millones de dólares al año, al reducir la tasa de cancelación (\textit{churn}).
+    \item \textbf{Retención de usuarios:} el estudio académico de referencia sobre el sistema de recomendación de Netflix estima que dicho sistema influye en aproximadamente el 80\% de las horas vistas en la plataforma, mientras que el 20\% restante proviene de la búsqueda directa [\ref{netflix-recsys}].
+    \item \textbf{Ahorro estimado:} los mismos autores calculan que el efecto combinado de la personalización y las recomendaciones le permite a Netflix ahorrar más de mil millones de dólares al año, principalmente al reducir la tasa de cancelación de suscripciones (\textit{churn}) [\ref{netflix-recsys}].
     \item \textbf{Decisiones de producto:} los datos de consumo guían la inversión en nuevos contenidos y permiten optimizar la experiencia de usuario, por ejemplo mediante miniaturas personalizadas y pruebas A/B.
 \end{itemize}
 
@@ -528,6 +489,7 @@ El desarrollo y operación de la plataforma de datos del banco digital expuso de
 % ==============================================================================
 % 5. ANÁLISIS COMPARATIVO
 % ==============================================================================
+\newpage
 \section{Análisis comparativo}
 El análisis comparativo de los tres casos de estudio (Amazon, Netflix y el Banco Digital) evidencia cómo los requerimientos funcionales y no funcionales de cada industria determinan decisiones arquitectónicas radicalmente distintas. Mientras que Amazon prioriza la disponibilidad masiva, la escalabilidad horizontal y la baja latencia en lectura para su catálogo de productos y recomendaciones, Netflix enfoca su arquitectura en el procesamiento distribuido de enormes volúmenes de registros de streaming y analítica de datos a gran escala para la personalización de contenidos. Por su parte, el Banco Digital sitúa como máxima prioridad la consistencia estricta de las transacciones financieras, la seguridad criptográfica y la inmutabilidad de los registros por encima de cualquier otro factor.
 
@@ -552,7 +514,7 @@ Flujos de datos & Pipelines de procesamiento en tiempo real y lotes para actuali
 \addlinespace
 Tecnologías clave & DynamoDB, Aurora, tecnologías propietarias distribuidas y motores de búsqueda avanzados. & Apache Cassandra, Apache Kafka, Apache Spark, AWS S3 y almacenamiento analítico en la nube. & Bases de datos relacionales robustas, colas de mensajes transaccionales y motores de cifrado avanzado. \\
 \addlinespace
-Rendimiento / latencia & Baja latencia en lectura (milisegundos) para millones de accesos simultáneos al catálogo. & Alta capacidad de rendimiento (\textit{throughput}) para análisis de grandes volúmenes de datos históricos. & Latencia ultra baja y determinista para operaciones financieras críticas con garantía de consistencia. \\
+Rendimiento / latencia & Baja latencia en lectura (milisegundos de un solo dígito) para millones de accesos simultáneos al catálogo. & Alta capacidad de rendimiento (\textit{throughput}) para análisis de grandes volúmenes de datos históricos. & Latencia ultra baja y determinista para operaciones financieras críticas con garantía de consistencia. \\
 \addlinespace
 Escalabilidad & Escalabilidad horizontal casi ilimitada para soportar picos de tráfico en eventos globales (ej. Prime Day). & Escalabilidad elástica en la nube para adaptarse a la demanda de visualización de contenidos multimedia. & Escalabilidad controlada y segura para soportar transacciones financieras concurrentes sin pérdida de datos. \\
 \addlinespace
@@ -588,7 +550,12 @@ Retos clave & Gestión de la consistencia eventual y sincronización de catálog
   \item Elmasri, R., \& Navathe, S. B. (2015). \textit{Fundamentals of Database Systems} (7th ed.). Pearson.
   \item Kleppmann, M. (2017). \textit{Designing Data-Intensive Applications: The Big Ideas Behind Reliable, Scalable, and Maintainable Systems}. O'Reilly Media.
   \item Amazon Web Services. (2025). \textit{Amazon DynamoDB: Deep Dive and Architecture Patterns}. AWS Whitepapers.
-  \item Netflix TechBlog. (2024). \textit{Data Architecture and Streaming at Scale in Netflix}. Recuperado de https://netflixtechblog.com/
+  \item \label{aws-primeday2024} Amazon Web Services. (2024). \textit{Prime Day 2024 -- Powered by AWS: All the numbers}. AWS News Blog. Recuperado de https://aws.amazon.com/blogs/aws/
+  \item \label{aws-memorydb} Amazon Web Services. (2024--2025). \textit{Amazon MemoryDB -- Features and SLA (Multi-AZ 99.99\%; Multi-Region hasta 99.999\%)}. AWS Documentation. Recuperado de https://aws.amazon.com/memorydb/
+  \item \label{mckinsey-personalization} McKinsey \& Company. (2021). \textit{The value of getting personalization right--or wrong--is multiplying}. McKinsey Insights. Recuperado de https://www.mckinsey.com/capabilities/growth-marketing-and-sales/our-insights/
+  \item \label{netflix-recsys} Gomez-Uribe, C. A., \& Hunt, N. (2015). \textit{The Netflix Recommender System: Algorithms, Business Value, and Innovation}. ACM Transactions on Management Information Systems, 6(4), 1--19. https://doi.org/10.1145/2843948
+  \item \label{netflix-keystone} Netflix Technology Blog. (2018). \textit{Keystone Real-time Stream Processing Platform}. Recuperado de https://netflixtechblog.com/
+  \item \label{netflix-kafka-scale} Netflix Technology Blog. (2024). \textit{Data Architecture and Streaming at Scale in Netflix}. Recuperado de https://netflixtechblog.com/
   \item Open Web Application Security Project (OWASP). (2025). \textit{Database Security and Compliance Guidelines for Financial Applications}. OWASP Foundation.
 \end{enumerate}
 
