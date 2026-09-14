@@ -314,33 +314,6 @@ mediante Amazon MWAA (Airflow gestionado), lo que permite definir y monitorear
 los distintos \textit{DAGs} (flujos de tareas) del \textit{pipeline}.
 
 \subsection{Métricas de rendimiento y escalabilidad}
-<<<<<<< HEAD
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{3}
-
-\subsection{Seguridad y cumplimiento}
-Amazon implementa una arquitectura de seguridad por capas para salvaguardar sus almacenes de datos distribuidos y la infraestructura de personalización:
-\begin{itemize}
-    \item \textbf{Cifrado de datos en tránsito y en reposo:} Utilización del estándar AES-256 administrado mediante AWS KMS (Key Management Service) para datos almacenados en clústeres como DynamoDB y Redshift, combinado con cifrado estricto TLS 1.3 en todas las comunicaciones inter-nodo y API endpoints.
-    \item \textbf{Control de acceso granular y principio de menor privilegio:} Aplicación estricta de políticas AWS IAM con asignación de roles dinámicos, aislando los datos de comportamiento de los usuarios de otros sistemas sensibles de pago o logística.
-    \item \textbf{Cumplimiento normativo y privacidad:} Adherencia a regulaciones globales como GDPR y CCPA mediante pipelines automatizados de seudonimización y anonimización de datos de navegación y compras antes de alimentar los modelos de filtrado colaborativo.
-\end{itemize}
-
-\subsection{Impacto en el negocio}
-El motor de recomendaciones impulsado por bases de datos distribuidas constituye el pilar comercial de Amazon:
-\begin{itemize}
-    \item \textbf{Generación de ingresos directos:} Se calcula que aproximadamente el 35\% de las ventas totales del comercio electrónico de Amazon proviene de las recomendaciones personalizadas en tiempo real ("Los clientes que compraron esto también compraron...").
-    \item \textbf{Aumento de la tasa de conversión:} Incremento del valor promedio del carrito mediante sugerencias contextuales de ultra baja latencia durante el proceso de compra (\textit{cross-selling} y \textit{up-selling}).
-    \item \textbf{Continuidad operativa masiva:} Alta disponibilidad del 99.999\% (\textit{five nines}) asegurada durante picos extremos de tráfico como Prime Day y Black Friday, manteniendo tiempos de respuesta inferiores a 10 milisegundos.
-\end{itemize}
-
-\subsection{Retos y lecciones aprendidas}
-El diseño y mantenimiento del sistema de recomendación distribuido presentó diversos desafíos arquitectónicos:
-\begin{itemize}
-    \item \textbf{Gestión de consistencia (Teorema CAP):} Priorización de la disponibilidad y tolerancia a particiones (sistemas AP) mediante consistencia eventual para evitar cuellos de botella en la experiencia de navegación del cliente.
-    \item \textbf{Mitigación de la clave caliente (\textit{Hot Keys}):} Superación de la saturación de particiones causada por productos altamente populares durante ofertas relámpago, resuelta mediante fragmentación dinámica y capas de almacenamiento en caché en memoria como Amazon ElastiCache.
-    \item \textbf{Sincronización multirregión:} Desafío de replicar las preferencias e historial del usuario globalmente en tiempo real manteniendo costos operacionales controlados y evitando la duplicación inconsistente de eventos.
-\end{itemize}
-=======
 % Responsable: Diego Eduardo Zapana Choquehuayta
 DynamoDB ofrece un rendimiento uniforme, con tiempos de respuesta de
 milisegundos de un solo dígito, independientemente de la escala del sistema.
@@ -350,7 +323,6 @@ segundo sobre tablas que superan los 200\,TB de información. Por su parte,
 MemoryDB logra tiempos de lectura del orden de microsegundos y tiempos de
 escritura de pocos milisegundos, con un nivel de disponibilidad cercano al
 99{,}999\,\%.
->>>>>>> origin/main
 
 En cuanto al volumen de datos, el \textit{data lake} de Amazon almacena
 aproximadamente 25\,petabytes de información en S3, sobre los cuales se
@@ -361,12 +333,41 @@ demanda de cada mercado o región, optimizando además los costos al utilizar
 esquemas de pago por uso (por ejemplo, DynamoDB en modo \textit{on-demand} y
 trabajos de Glue con autoescalado, sin necesidad de mantener infraestructura
 provisionada de forma permanente).
+
+\subsection{Seguridad y cumplimiento}
+% Responsable: Sebastian German Gomez Portugala
+Amazon implementa una arquitectura de seguridad por capas para salvaguardar sus almacenes de datos distribuidos y la infraestructura de personalización:
+\begin{itemize}
+    \item \textbf{Cifrado de datos en tránsito y en reposo:} Utilización del estándar AES-256 administrado mediante AWS KMS (Key Management Service) para datos almacenados en clústeres como DynamoDB y Redshift, combinado con cifrado estricto TLS 1.3 en todas las comunicaciones inter-nodo y API endpoints.
+    \item \textbf{Control de acceso granular y principio de menor privilegio:} Aplicación estricta de políticas AWS IAM con asignación de roles dinámicos, aislando los datos de comportamiento de los usuarios de otros sistemas sensibles de pago o logística.
+    \item \textbf{Cumplimiento normativo y privacidad:} Adherencia a regulaciones globales como GDPR y CCPA mediante pipelines automatizados de seudonimización y anonimización de datos de navegación y compras antes de alimentar los modelos de filtrado colaborativo.
+\end{itemize}
+
+\subsection{Impacto en el negocio}
+% Responsable: Sebastian German Gomez Portugala
+El motor de recomendaciones impulsado por bases de datos distribuidas constituye el pilar comercial de Amazon:
+\begin{itemize}
+    \item \textbf{Generación de ingresos directos:} Se calcula que aproximadamente el 35\% de las ventas totales del comercio electrónico de Amazon proviene de las recomendaciones personalizadas en tiempo real ("Los clientes que compraron esto también compraron...").
+    \item \textbf{Aumento de la tasa de conversión:} Incremento del valor promedio del carrito mediante sugerencias contextuales de ultra baja latencia durante el proceso de compra (\textit{cross-selling} y \textit{up-selling}).
+    \item \textbf{Continuidad operativa masiva:} Alta disponibilidad del 99.999\% (\textit{five nines}) asegurada durante picos extremos de tráfico como Prime Day y Black Friday, manteniendo tiempos de respuesta inferiores a 10 milisegundos.
+\end{itemize}
+
+\subsection{Retos y lecciones aprendidas}
+% Responsable: Sebastian German Gomez Portugala
+El diseño y mantenimiento del sistema de recomendación distribuido presentó diversos desafíos arquitectónicos:
+\begin{itemize}
+    \item \textbf{Gestión de consistencia (Teorema CAP):} Priorización de la disponibilidad y tolerancia a particiones (sistemas AP) mediante consistencia eventual para evitar cuellos de botella en la experiencia de navegación del cliente.
+    \item \textbf{Mitigación de la clave caliente (\textit{Hot Keys}):} Superación de la saturación de particiones causada por productos altamente populares durante ofertas relámpago, resuelta mediante fragmentación dinámica y capas de almacenamiento en caché en memoria como Amazon ElastiCache.
+    \item \textbf{Sincronización multirregión:} Desafío de replicar las preferencias e historial del usuario globalmente en tiempo real manteniendo costos operacionales controlados y evitando la duplicación inconsistente de eventos.
+\end{itemize}
+
 % ==============================================================================
 % 3. CASO 2: NETFLIX
 % ==============================================================================
 \section{Caso 2: Netflix --- Big Data y análisis de patrones de consumo}
 
 \subsection{Arquitectura de datos}
+% Responsable: Sebastian German Gomez Portugala
 La infraestructura de datos de Netflix responde a una arquitectura híbrida y distribuida optimizada para la analítica a escala de petabytes:
 \begin{itemize}
     \item \textbf{Data Lake en la nube (Amazon S3 + Apache Iceberg):} Utilización de S3 como almacenamiento primario no estructurado acoplado a Apache Iceberg, lo que permite realizar transacciones ACID y consultas SQL de alto rendimiento sobre petabytes de logs de reproducciones.
@@ -375,11 +376,12 @@ La infraestructura de datos de Netflix responde a una arquitectura híbrida y di
 \end{itemize}
 
 \subsection{Flujos de datos y pipelines}
+% Responsable: Sebastian German Gomez Portugala
 El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios divididos en dos vías principales:
 \begin{itemize}
     \item \textbf{Ingesta distribuida (Keystone Pipeline):} Plataforma capaz de capturar e ingerir más de 500 mil millones de eventos diarios (clics, pausas, calidad de video) utilizando Apache Kafka como bus central de mensajería altamente escalable.
     \item \textbf{Procesamiento en tiempo real (Stream Processing):} Motores basados en Apache Flink y Spark Streaming que analizan la telemetría del usuario al instante para ajustar dinámicamente el bitrate de streaming y alimentar sistemas de recomendación reactivos.
-    \item \textbf{Procesamiento por lotes (Batch Analytics):} Procesos ejecutados sobre Apache Spark y Trino para entrenar periódicamente algoritmos de aprendizaje automático que determinan las carátulas personalizadas (\textit{artwork artwork personalization}) y la disposición del catálogo en pantalla.
+    \item \textbf{Procesamiento por lotes (Batch Analytics):} Procesos ejecutados sobre Apache Spark y Trino para entrenar periódicamente algoritmos de aprendizaje automático que determinan las carátulas personalizadas (\textit{artwork personalization}) y la disposición del catálogo en pantalla.
 \end{itemize}
 
 \subsection{Herramientas y tecnologías}
