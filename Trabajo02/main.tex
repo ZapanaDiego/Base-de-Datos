@@ -385,41 +385,53 @@ El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios d
 \end{itemize}
 
 \subsection{Herramientas y tecnologías}
+% Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item Almacenamiento operacional: Apache Cassandra para datos de reproducción, historial y metadatos de alto volumen de escritura/lectura.
-    \item Caché distribuido: EVCache (basado en Memcached) frente a Cassandra para lecturas ultrarrápidas y absorción de picos.
-    \item Kafka/Keystone para eventos en tiempo real; Apache Iceberg en S3 como lago; Spark/Flink para procesamiento batch/streaming y feature stores.
-    \item Bases complementarias: MySQL para facturación y datos transaccionales; Elasticsearch para búsqueda; Redis para estructuras complejas y hot paths.
+    \item \textbf{Almacenamiento operativo:} Apache Cassandra, una base de datos NoSQL columnar y distribuida en modelo \textit{peer-to-peer}, utilizada para datos de usuarios, facturación y recomendaciones, con replicación multirregión.
+    \item \textbf{Ingesta de eventos:} Apache Kafka como bus central de mensajería, capaz de absorber picos de hasta 8 millones de eventos por segundo.
+    \item \textbf{Procesamiento:} Apache Flink para el procesamiento en \textit{streaming} (grafo de relaciones, detección de fraude, personalización) y Apache Spark sobre Amazon EMR para el procesamiento por lotes.
+    \item \textbf{Analítica interactiva:} Presto, ejecutado sobre clústeres EMR y optimizado para consultas SQL sobre archivos Parquet almacenados en S3.
+    \item \textbf{Tablas transaccionales:} Apache Iceberg sobre S3, alimentado mediante el sistema interno \textit{Move Data}, que transforma los respaldos (SSTables) de Cassandra en \textit{DataFrames} de Spark.
+    \item \textbf{Infraestructura y monitoreo:} clústeres EMR dinámicos, Amazon S3, CloudWatch, IAM y herramientas internas de observabilidad como Atlas.
 \end{itemize}
 
 \subsection{Métricas de rendimiento y escalabilidad}
+% Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item Throughput masivo: EVCache maneja ~2 billones de solicitudes diarias con latencias normales de 1–5 ms y 99 porciento de peticiones bajo 20 ms.
-    \item Escrituras sostenidas: Cassandra soporta picos de >1 millón de escrituras/segundo en benchmarks históricos y escalado multi-AZ para disponibilidad.
-    \item Mejoras de latencia: Migraciones a Cassandra+EVCache redujeron latencia mediana de escritura de 113 ms a 25 ms y permitieron >200 Gbps de throughput de lectura sostenido en eventos en vivo.
+    \item \textbf{Volumen de eventos:} Netflix procesa aproximadamente 500 mil millones de eventos y 1,3\,PB de datos al día.
+    \item \textbf{Picos de ingestión:} hasta 8 millones de eventos por segundo (~24\,GB/s) durante los momentos de mayor tráfico.
+    \item \textbf{Escalabilidad de Cassandra:} soporta cientos de petabytes gracias a sus réplicas multi-datacenter.
+    \item \textbf{Consultas analíticas:} los clústeres dinámicos de Presto/EMR permiten realizar consultas interactivas sobre los cerca de 25\,PB almacenados en S3.
+    \item \textbf{Arquitectura desacoplada:} el cómputo (EMR) se escala de forma independiente al almacenamiento (S3), lo que permite ajustar cada componente según la demanda real.
 \end{itemize}
 
 \subsection{Seguridad y cumplimiento}
+% Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item Cifrado y control de acceso: Cifrado en tránsito/reposo, autenticación multifactor y gestión de claves con servicios auditados; segmentación de redes y monitoreo SIEM para detección de intrusiones.
-    \item Privacidad y gobernanza: Políticas de retención, consentimiento y minimización de datos personales en pipelines de analítica; auditorías periódicas de accesos privilegiados.
-
+    \item \textbf{Cifrado:} uso de SSE en S3 para datos en reposo y TLS para datos en tránsito.
+    \item \textbf{Control de acceso:} mecanismos propios de IAM/RBAC sobre los recursos de la plataforma.
+    \item \textbf{Autenticación:} MFA y SSO interno para el acceso del personal a los sistemas.
+    \item \textbf{Cumplimiento normativo:} Netflix cumple con GDPR y CCPA, anonimiza los datos sensibles de sus usuarios y respeta políticas de retención definidas.
+    \item \textbf{Monitoreo:} auditoría continua, escaneo de vulnerabilidades, seguridad perimetral mediante VPC y \textit{logging} centralizado.
 \end{itemize}
 
 \subsection{Impacto en el negocio}
+% Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item Experiencia y retención: Las recomendaciones y conteos en tiempo real (ej. “top 10”) mejoran descubrimiento de contenido y engagement, clave para reducir churn.
-    \item Eficiencia operativa: Cachear 90 porciento de lecturas evita “tormentas” sobre el origen y reduce costos de ancho de banda y cómputo durante lanzamientos y eventos en vivo.
-    \item Innovación rápida: Arquitecturas de microservicios + observabilidad permiten A/B testing a gran escala y decisiones de producto basadas en datos.
+    \item \textbf{Retención de usuarios:} entre el 75\% y el 80\% de las horas vistas en Netflix son impulsadas por las recomendaciones personalizadas.
+    \item \textbf{Ahorro estimado:} este motor de personalización representa un valor retenido cercano a los mil millones de dólares al año, al reducir la tasa de cancelación (\textit{churn}).
+    \item \textbf{Decisiones de producto:} los datos de consumo guían la inversión en nuevos contenidos y permiten optimizar la experiencia de usuario, por ejemplo mediante miniaturas personalizadas y pruebas A/B.
 \end{itemize}
 
 \subsection{Retos y lecciones aprendidas}
+% Responsable: Bran Yames Paz Patatingo
 \begin{itemize}
-    \item Consistencia vs disponibilidad: Se adopta consistencia eventual en contadores y recomendaciones para priorizar disponibilidad y latencia; se acepta ligera desactualización en lecturas.
-    \item Resiliencia: Prácticas de chaos engineering (ej. Chaos Monkey) y replicación multi-AZ/region previenen caídas y mejoran la recuperación ante fallos.
-    \item Una capa de caché distribuido (EVCache) frente a una base durable (Cassandra) es patrón probado para escalar lecturas masivas sin degradar escrituras.
+    \item \textbf{Migración de infraestructura:} escalar a cientos de millones de usuarios exigió pasar de soluciones \textit{ad hoc} (como el antiguo conector Casspactor) a una plataforma unificada de movimiento de datos.
+    \item \textbf{Backups confiables:} generar respaldos sólidos —Cassandra vuelca SSTables a S3, que Spark/Iceberg procesan directamente— redujo los fallos por corrupción de metadatos y permitió escalar sin perder consistencia.
+    \item \textbf{Particiones sesgadas:} el manejo de conjuntos de datos muy grandes con particiones desbalanceadas en Cassandra se resolvió procesándolos de forma más eficiente en Spark.
+    \item \textbf{Lección principal:} diseñar los \textit{pipelines} en función del modelo de datos (clave-valor, series de tiempo, etc.) evita procesos intermedios costosos.
+    \item \textbf{Evolución continua:} Netflix sigue avanzando hacia grafos en tiempo real (con Flink) para integrar la actividad en vivo de los usuarios en sus análisis.
 \end{itemize}
-
 % ==============================================================================
 % 4. CASO 3: BANCO DIGITAL
 % ==============================================================================
