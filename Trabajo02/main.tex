@@ -119,11 +119,11 @@
       \begin{tabular}{ll}
         \textbf{\color{lasalledark} Asignatura:} & Base de Datos \\[0.1cm]                                                                                                
         \textbf{\color{lasalledark} Docente:}    & M.Sc. Ing. R. Fabrizio Calienes Rodríguez \\[0.1cm]
-        \textbf{\color{lasalledark} Integrantes:} & $\bullet$ Diego Eduardo Zapana Choquehuayta \\
-                                                   & $\bullet$ Sebastian German Gomez Portugala \\
-                                                   & $\bullet$ Bran Yames Paz Patatingo \\
-                                                   & $\bullet$ Jose David Choquehuanca Calcina \\
-                                                   & $\bullet$ Jose Carlos Chino Nina \\
+        \textbf{\color{lasalledark} Integrantes:} & \(\bullet\) Diego Eduardo Zapana Choquehuayta \\
+                                                   & \(\bullet\) Sebastian German Gomez Portugala \\
+                                                   & \(\bullet\) Bran Yames Paz Patatingo \\
+                                                   & \(\bullet\) Jose David Choquehuanca Calcina \\
+                                                   & \(\bullet\) Jose Carlos Chino Nina \\
       \end{tabular}
     \end{flushleft}
 
@@ -194,17 +194,36 @@ Jose Carlos Chino Nina &
 \tableofcontents
 \newpage
 
-% ==============================================================================
-% RESUMEN EJECUTIVO
-% ==============================================================================
-\section*{Resumen ejecutivo}
-\porCompletar{Todo el equipo (al final)}{3}
 
 % ==============================================================================
 % 1. INTRODUCCIÓN
+% Responsable: Diego Eduardo Zapana Choquehuayta
 % ==============================================================================
 \section{Introducción}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+Las bases de datos han dejado de ser un simple repositorio de información para
+convertirse en un activo estratégico que sostiene la operación, la
+personalización y la toma de decisiones de las grandes organizaciones
+digitales. Hoy en día, empresas de comercio electrónico, plataformas de
+entretenimiento y entidades financieras dependen de arquitecturas de datos
+cada vez más sofisticadas —relacionales, NoSQL, en memoria y distribuidas—
+para poder atender a millones de usuarios de forma simultánea, con altos
+niveles de disponibilidad, seguridad y rendimiento.
+
+En el presente trabajo se analizan tres casos de estudio: Amazon, que utiliza
+bases de datos distribuidas para generar recomendaciones de productos en
+tiempo real; Netflix, que procesa volúmenes masivos de datos (Big Data) para
+analizar los patrones de consumo de sus usuarios; y un banco digital, que
+requiere una gestión de datos segura y en tiempo real para prevenir el fraude
+y cumplir con la normativa financiera vigente.
+
+El objetivo de este informe es identificar, para cada organización, la
+arquitectura de datos empleada, los flujos de información, las herramientas y
+tecnologías específicas, las métricas de rendimiento y escalabilidad, las
+medidas de seguridad y cumplimiento, el impacto que estas soluciones tienen en
+el negocio, y los principales retos y lecciones aprendidas. Finalmente, se
+presenta un análisis comparativo entre los tres casos, con el fin de extraer
+conclusiones generales sobre el papel estratégico de las bases de datos en la
+industria digital actual.
 
 % ==============================================================================
 % 2. CASO 1: AMAZON
@@ -212,13 +231,53 @@ Jose Carlos Chino Nina &
 \section{Caso 1: Amazon --- Bases de datos distribuidas para recomendaciones}
 
 \subsection{Arquitectura de datos}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+Amazon utiliza un \textit{data lake} centralizado en Amazon S3, administrado
+con AWS Lake Formation, donde se almacenan los registros de usuarios, las
+transacciones y los catálogos de productos. Las consultas analíticas se
+realizan mediante Amazon Athena (SQL \textit{serverless} sobre S3), mientras
+que el proceso de extracción, transformación y carga (ETL) se ejecuta con AWS
+Glue utilizando PySpark. Los modelos de recomendación se entrenan en Amazon
+SageMaker y se ejecutan tanto en modo por lotes (\textit{Batch Transform})
+como en línea, según el caso de uso.
+
+El resultado final de este proceso —las listas de recomendaciones— se publica
+en Amazon DynamoDB, una base de datos NoSQL de tipo clave-valor/documento,
+totalmente gestionada y sin necesidad de administrar servidores, que ofrece
+transacciones ACID y consistencia de lectura fuerte de forma opcional.
+DynamoDB escala horizontalmente mediante particionado automático basado en la
+clave primaria, y admite tablas globales replicadas en varias regiones para
+garantizar alta disponibilidad.
+
+Para las señales que requieren respuesta casi instantánea, Amazon complementa
+esta arquitectura con Amazon MemoryDB, una base de datos en memoria compatible
+con Redis, organizada en particiones (\textit{shards}) con una réplica
+primaria y hasta cinco réplicas de lectura por partición, lo que le permite
+ofrecer latencias de lectura del orden de microsegundos.
 
 \subsection{Flujos de datos y pipelines}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+El flujo de generación de recomendaciones comienza en el \textit{data lake}
+(Amazon S3) y es orquestado mediante Amazon MWAA (Apache Airflow gestionado).
+En primer lugar, se extraen los datos históricos utilizando Athena y Glue; a
+continuación, estos datos alimentan el entrenamiento del modelo en SageMaker.
+En cada ciclo del proceso se aplica una inferencia por lotes (\textit{Batch
+Transform}), que genera vectores de usuario y de producto.
 
-% Diagrama de flujo del pipeline (opcional). Reemplaza el ejemplo con tu propio
-% diagrama usando TikZ, o bórralo y pega una imagen con \includegraphics.
+Posteriormente, se realiza una búsqueda por similitud (\textit{Approximate
+Nearest Neighbors}, ANN) empleando la librería FAISS dentro de SageMaker
+Processing, y los resultados obtenidos se combinan y reordenan mediante un
+proceso adicional en Glue. Finalmente, las recomendaciones calculadas por
+lotes se almacenan en DynamoDB para su consulta desde las aplicaciones, y las
+señales dinámicas (por ejemplo, vectores de productos vistos recientemente) se
+envían a MemoryDB para su uso en consultas en línea de muy baja latencia.
+
+Este diseño híbrido, que combina procesamiento por lotes (\textit{batch}) y en
+tiempo real, permite que Amazon trate primero las señales más estables (como
+el historial de compras o las relaciones entre productos del catálogo) de
+forma económica y eficiente, para luego añadir filtros y reordenamientos en
+tiempo real únicamente donde realmente se necesitan.
+
 \begin{center}
 \begin{tikzpicture}[
   node distance=0.9cm and 1.1cm,
@@ -226,31 +285,81 @@ Jose Carlos Chino Nina &
               text width=2.6cm, align=center, minimum height=1cm, font=\small},
   arr/.style={-{Stealth[length=2mm]}, thick, color=lasalleblue}
 ]
-  \node[box] (a) {*********};
-  \node[box, right=of a]  (b)  {*********};
-  \node[box, right=of b] (c)   {*********};
-  \node[box, right=of c] (d)   {*********};
+  \node[box] (s3)   {Data Lake\\(S3 + Lake Formation)};
+  \node[box, right=of s3]  (glue)  {Athena / Glue\\(ETL, consultas)};
+  \node[box, right=of glue] (sm)   {SageMaker\\(entrenamiento e inferencia)};
+  \node[box, below right=1.1cm and -0.3cm of sm] (dynamo) {DynamoDB\\(recomend. por lotes)};
+  \node[box, below left=1.1cm and -0.3cm of sm]  (memdb)  {MemoryDB\\(búsqueda en tiempo real)};
 
-  \draw[arr] (a) -- (b);
-  \draw[arr] (b) -- (c);
-  \draw[arr] (c) -- (d);
+  \draw[arr] (s3) -- (glue);
+  \draw[arr] (glue) -- (sm);
+  \draw[arr] (sm) -- (dynamo);
+  \draw[arr] (sm) -- (memdb);
 \end{tikzpicture}
 \end{center}
 
 \subsection{Herramientas y tecnologías}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{3}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+El ecosistema tecnológico utilizado por Amazon para este caso de uso está
+construido en su totalidad sobre la nube de AWS, lo cual facilita el escalado
+sin necesidad de administrar infraestructura de forma manual. Entre los
+servicios principales se encuentran: Amazon S3 y Lake Formation para el
+almacenamiento centralizado de datos; Amazon Athena para consultas SQL
+\textit{serverless}; AWS Glue para los procesos ETL basados en PySpark; Amazon
+SageMaker para el entrenamiento e inferencia de los modelos de \textit{machine
+learning}; Amazon DynamoDB como base de datos final que sirve las
+recomendaciones; y Amazon MemoryDB (compatible con Redis) para las búsquedas
+de baja latencia. La orquestación de todo el flujo de trabajo se realiza
+mediante Amazon MWAA (Airflow gestionado), lo que permite definir y monitorear
+los distintos \textit{DAGs} (flujos de tareas) del \textit{pipeline}.
 
 \subsection{Métricas de rendimiento y escalabilidad}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{3}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+DynamoDB ofrece un rendimiento uniforme, con tiempos de respuesta de
+milisegundos de un solo dígito, independientemente de la escala del sistema.
+Durante eventos de tráfico extremadamente alto, como el Prime Day, la base de
+datos ha llegado a atender picos de cientos de miles de solicitudes por
+segundo sobre tablas que superan los 200\,TB de información. Por su parte,
+MemoryDB logra tiempos de lectura del orden de microsegundos y tiempos de
+escritura de pocos milisegundos, con un nivel de disponibilidad cercano al
+99{,}999\,\%.
+
+En cuanto al volumen de datos, el \textit{data lake} de Amazon almacena
+aproximadamente 25\,petabytes de información en S3, sobre los cuales se
+entrenan y reentrenan periódicamente los modelos de recomendación. Tanto AWS
+Glue como Amazon SageMaker cuentan con mecanismos de autoescalado que permiten
+adaptar automáticamente los recursos de cómputo según el volumen de datos y la
+demanda de cada mercado o región, optimizando además los costos al utilizar
+esquemas de pago por uso (por ejemplo, DynamoDB en modo \textit{on-demand} y
+trabajos de Glue con autoescalado, sin necesidad de mantener infraestructura
+provisionada de forma permanente).
 
 \subsection{Seguridad y cumplimiento}
-\porCompletar{Sebastian German Gomez Portugala}{3}
+% Responsable: Sebastian German Gomez Portugala
+Amazon implementa una arquitectura de seguridad por capas para salvaguardar sus almacenes de datos distribuidos y la infraestructura de personalización:
+\begin{itemize}
+    \item \textbf{Cifrado de datos en tránsito y en reposo:} Utilización del estándar AES-256 administrado mediante AWS KMS (Key Management Service) para datos almacenados en clústeres como DynamoDB y Redshift, combinado con cifrado estricto TLS 1.3 en todas las comunicaciones inter-nodo y API endpoints.
+    \item \textbf{Control de acceso granular y principio de menor privilegio:} Aplicación estricta de políticas AWS IAM con asignación de roles dinámicos, aislando los datos de comportamiento de los usuarios de otros sistemas sensibles de pago o logística.
+    \item \textbf{Cumplimiento normativo y privacidad:} Adherencia a regulaciones globales como GDPR y CCPA mediante pipelines automatizados de seudonimización y anonimización de datos de navegación y compras antes de alimentar los modelos de filtrado colaborativo.
+\end{itemize}
 
 \subsection{Impacto en el negocio}
-\porCompletar{Sebastian German Gomez Portugala}{3}
+% Responsable: Sebastian German Gomez Portugala
+El motor de recomendaciones impulsado por bases de datos distribuidas constituye el pilar comercial de Amazon:
+\begin{itemize}
+    \item \textbf{Generación de ingresos directos:} Se calcula que aproximadamente el 35\% de las ventas totales del comercio electrónico de Amazon proviene de las recomendaciones personalizadas en tiempo real ("Los clientes que compraron esto también compraron...").
+    \item \textbf{Aumento de la tasa de conversión:} Incremento del valor promedio del carrito mediante sugerencias contextuales de ultra baja latencia durante el proceso de compra (\textit{cross-selling} y \textit{up-selling}).
+    \item \textbf{Continuidad operativa masiva:} Alta disponibilidad del 99.999\% (\textit{five nines}) asegurada durante picos extremos de tráfico como Prime Day y Black Friday, manteniendo tiempos de respuesta inferiores a 10 milisegundos.
+\end{itemize}
 
 \subsection{Retos y lecciones aprendidas}
-\porCompletar{Sebastian German Gomez Portugala}{3}
+% Responsable: Sebastian German Gomez Portugala
+El diseño y mantenimiento del sistema de recomendación distribuido presentó diversos desafíos arquitectónicos:
+\begin{itemize}
+    \item \textbf{Gestión de consistencia (Teorema CAP):} Priorización de la disponibilidad y tolerancia a particiones (sistemas AP) mediante consistencia eventual para evitar cuellos de botella en la experiencia de navegación del cliente.
+    \item \textbf{Mitigación de la clave caliente (\textit{Hot Keys}):} Superación de la saturación de particiones causada por productos altamente populares durante ofertas relámpago, resuelta mediante fragmentación dinámica y capas de almacenamiento en caché en memoria como Amazon ElastiCache.
+    \item \textbf{Sincronización multirregión:} Desafío de replicar las preferencias e historial del usuario globalmente en tiempo real manteniendo costos operacionales controlados y evitando la duplicación inconsistente de eventos.
+\end{itemize}
 
 % ==============================================================================
 % 3. CASO 2: NETFLIX
@@ -258,46 +367,147 @@ Jose Carlos Chino Nina &
 \section{Caso 2: Netflix --- Big Data y análisis de patrones de consumo}
 
 \subsection{Arquitectura de datos}
-\porCompletar{Sebastian German Gomez Portugala}{4}
+% Responsable: Sebastian German Gomez Portugala
+La infraestructura de datos de Netflix responde a una arquitectura híbrida y distribuida optimizada para la analítica a escala de petabytes:
+\begin{itemize}
+    \item \textbf{Data Lake en la nube (Amazon S3 + Apache Iceberg):} Utilización de S3 como almacenamiento primario no estructurado acoplado a Apache Iceberg, lo que permite realizar transacciones ACID y consultas SQL de alto rendimiento sobre petabytes de logs de reproducciones.
+    \item \textbf{Persistencia NoSQL de baja latencia (Apache Cassandra):} Empleo de clústeres masivos de Cassandra para el almacenamiento distribuido del estado del usuario, marcadores de reproducción (\textit{bookmarks}) e historiales de visualización de millones de suscriptores concurrentes.
+    \item \textbf{Capa de almacenamiento en memoria (EVCache):} Integración de una capa distribuida basada en Memcached para servir datos de perfiles y personalización con latencias de un solo dígito de milisegundo a la interfaz del usuario.
+\end{itemize}
 
 \subsection{Flujos de datos y pipelines}
-\porCompletar{Sebastian German Gomez Portugala}{4}
+% Responsable: Sebastian German Gomez Portugala
+El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios divididos en dos vías principales:
+\begin{itemize}
+    \item \textbf{Ingesta distribuida (Keystone Pipeline):} Plataforma capaz de capturar e ingerir más de 500 mil millones de eventos diarios (clics, pausas, calidad de video) utilizando Apache Kafka como bus central de mensajería altamente escalable.
+    \item \textbf{Procesamiento en tiempo real (Stream Processing):} Motores basados en Apache Flink y Spark Streaming que analizan la telemetría del usuario al instante para ajustar dinámicamente el bitrate de streaming y alimentar sistemas de recomendación reactivos.
+    \item \textbf{Procesamiento por lotes (Batch Analytics):} Procesos ejecutados sobre Apache Spark y Trino para entrenar periódicamente algoritmos de aprendizaje automático que determinan las carátulas personalizadas (\textit{artwork personalization}) y la disposición del catálogo en pantalla.
+\end{itemize}
 
 \subsection{Herramientas y tecnologías}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+% Responsable: Bran Yames Paz Patatingo
+\begin{itemize}
+    \item \textbf{Almacenamiento operativo:} Apache Cassandra, una base de datos NoSQL columnar y distribuida en modelo \textit{peer-to-peer}, utilizada para datos de usuarios, facturación y recomendaciones, con replicación multirregión.
+    \item \textbf{Ingesta de eventos:} Apache Kafka como bus central de mensajería, capaz de absorber picos de hasta 8 millones de eventos por segundo.
+    \item \textbf{Procesamiento:} Apache Flink para el procesamiento en \textit{streaming} (grafo de relaciones, detección de fraude, personalización) y Apache Spark sobre Amazon EMR para el procesamiento por lotes.
+    \item \textbf{Analítica interactiva:} Presto, ejecutado sobre clústeres EMR y optimizado para consultas SQL sobre archivos Parquet almacenados en S3.
+    \item \textbf{Tablas transaccionales:} Apache Iceberg sobre S3, alimentado mediante el sistema interno \textit{Move Data}, que transforma los respaldos (SSTables) de Cassandra en \textit{DataFrames} de Spark.
+    \item \textbf{Infraestructura y monitoreo:} clústeres EMR dinámicos, Amazon S3, CloudWatch, IAM y herramientas internas de observabilidad como Atlas.
+\end{itemize}
 
 \subsection{Métricas de rendimiento y escalabilidad}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+% Responsable: Bran Yames Paz Patatingo
+\begin{itemize}
+    \item \textbf{Volumen de eventos:} Netflix procesa aproximadamente 500 mil millones de eventos y 1,3\,PB de datos al día.
+    \item \textbf{Picos de ingestión:} hasta 8 millones de eventos por segundo (~24\,GB/s) durante los momentos de mayor tráfico.
+    \item \textbf{Escalabilidad de Cassandra:} soporta cientos de petabytes gracias a sus réplicas multi-datacenter.
+    \item \textbf{Consultas analíticas:} los clústeres dinámicos de Presto/EMR permiten realizar consultas interactivas sobre los cerca de 25\,PB almacenados en S3.
+    \item \textbf{Arquitectura desacoplada:} el cómputo (EMR) se escala de forma independiente al almacenamiento (S3), lo que permite ajustar cada componente según la demanda real.
+\end{itemize}
 
 \subsection{Seguridad y cumplimiento}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+% Responsable: Bran Yames Paz Patatingo
+\begin{itemize}
+    \item \textbf{Cifrado:} uso de SSE en S3 para datos en reposo y TLS para datos en tránsito.
+    \item \textbf{Control de acceso:} mecanismos propios de IAM/RBAC sobre los recursos de la plataforma.
+    \item \textbf{Autenticación:} MFA y SSO interno para el acceso del personal a los sistemas.
+    \item \textbf{Cumplimiento normativo:} Netflix cumple con GDPR y CCPA, anonimiza los datos sensibles de sus usuarios y respeta políticas de retención definidas.
+    \item \textbf{Monitoreo:} auditoría continua, escaneo de vulnerabilidades, seguridad perimetral mediante VPC y \textit{logging} centralizado.
+\end{itemize}
 
 \subsection{Impacto en el negocio}
-\porCompletar{Bran Yames Paz Patatingo}{3}
+% Responsable: Bran Yames Paz Patatingo
+\begin{itemize}
+    \item \textbf{Retención de usuarios:} entre el 75\% y el 80\% de las horas vistas en Netflix son impulsadas por las recomendaciones personalizadas.
+    \item \textbf{Ahorro estimado:} este motor de personalización representa un valor retenido cercano a los mil millones de dólares al año, al reducir la tasa de cancelación (\textit{churn}).
+    \item \textbf{Decisiones de producto:} los datos de consumo guían la inversión en nuevos contenidos y permiten optimizar la experiencia de usuario, por ejemplo mediante miniaturas personalizadas y pruebas A/B.
+\end{itemize}
 
 \subsection{Retos y lecciones aprendidas}
-\porCompletar{Bran Yames Paz Patatingo}{3}
-
+% Responsable: Bran Yames Paz Patatingo
+\begin{itemize}
+    \item \textbf{Migración de infraestructura:} escalar a cientos de millones de usuarios exigió pasar de soluciones \textit{ad hoc} (como el antiguo conector Casspactor) a una plataforma unificada de movimiento de datos.
+    \item \textbf{Backups confiables:} generar respaldos sólidos —Cassandra vuelca SSTables a S3, que Spark/Iceberg procesan directamente— redujo los fallos por corrupción de metadatos y permitió escalar sin perder consistencia.
+    \item \textbf{Particiones sesgadas:} el manejo de conjuntos de datos muy grandes con particiones desbalanceadas en Cassandra se resolvió procesándolos de forma más eficiente en Spark.
+    \item \textbf{Lección principal:} diseñar los \textit{pipelines} en función del modelo de datos (clave-valor, series de tiempo, etc.) evita procesos intermedios costosos.
+    \item \textbf{Evolución continua:} Netflix sigue avanzando hacia grafos en tiempo real (con Flink) para integrar la actividad en vivo de los usuarios en sus análisis.
+\end{itemize}
 % ==============================================================================
 % 4. CASO 3: BANCO DIGITAL
 % ==============================================================================
+\newpage
 \section{Caso 3: Banco digital --- Seguridad y gestión de datos en tiempo real}
 
 \subsection{Arquitectura de datos}
-\porCompletar{Jose David Choquehuanca Calcina}{4}
+% Responsable: Jose David Choquehuanca Calcina
+Un banco digital típico combina bases de datos relacionales tradicionales con
+tecnologías modernas de datos distribuidos. El núcleo bancario (cuentas,
+pagos) reside en motores RDBMS transaccionales, como Oracle, PostgreSQL o SQL
+Server, con replicación síncrona o asíncrona que garantiza las propiedades
+ACID. Estas transacciones también se vuelcan hacia un \textit{data lake} o un
+\textit{data warehouse} (por ejemplo, AWS S3, Azure Data Lake, o motores
+analíticos como Snowflake o BigQuery) para el análisis histórico. Para el
+procesamiento en tiempo real se incorporan bases de datos NoSQL distribuidas,
+como Cassandra o DynamoDB, junto con cachés en memoria (Redis/MemoryDB), que
+permiten atender consultas de alta concurrencia con baja latencia. Todo el
+ecosistema se integra mediante plataformas de \textit{streaming} como Apache
+Kafka o AWS Kinesis, siguiendo patrones arquitectónicos tipo Lambda o Kappa
+que combinan el procesamiento por lotes con el procesamiento en tiempo real.
 
 \subsection{Flujos de datos y pipelines}
-\porCompletar{Jose David Choquehuanca Calcina}{4}
+% Responsable: Jose David Choquehuanca Calcina
+Cada transacción o evento bancario —por ejemplo, la apertura de una cuenta o
+un pago con tarjeta— se publica en un \textit{topic} de Kafka. Una capa de
+procesamiento en \textit{streaming} (Apache Flink o Spark Streaming) analiza
+esos eventos de forma inmediata, aplicando modelos de \textit{scoring}
+crediticio o detección de fraude, y dispara alertas o validaciones KYC cuando
+es necesario. En paralelo, los datos transaccionales se ingieren por lotes
+hacia el \textit{data lake} mediante procesos ETL (Spark en EMR/Databricks o
+Azure Synapse), que alimentan tableros de inteligencia de negocio (BI),
+modelos de \textit{machine learning} y los reportes exigidos por los entes
+reguladores.
 
 \subsection{Herramientas y tecnologías}
-\porCompletar{Jose David Choquehuanca Calcina}{3}
+% Responsable: Jose David Choquehuanca Calcina
+Entre las herramientas más utilizadas se encuentran Kafka/Confluent y
+Flink/Spark Streaming para el procesamiento de eventos, Elasticsearch o
+ClickHouse para consultas rápidas sobre \textit{logs}, motores RDBMS
+relacionales para el núcleo transaccional, y cachés como Redis o Memcached
+para las sesiones de usuario. En la nube se recurre a servicios como AWS
+Kinesis, Azure Event Hubs o Azure Databricks, junto con \textit{frameworks}
+de \textit{machine learning} como scikit-learn o TensorFlow para los modelos
+de \textit{scoring} y detección de fraude. La infraestructura suele ser
+\textit{cloud-native}, apoyada en contenedores (Kubernetes), microservicios y
+\textit{API Gateways}, con la gestión de identidades basada en
+OAuth2/OpenID Connect y SSO empresarial.
 
 \subsection{Métricas de rendimiento y escalabilidad}
-\porCompletar{Jose David Choquehuanca Calcina}{3}
+% Responsable: Jose David Choquehuanca Calcina
+Un banco digital debe garantizar latencias inferiores a 100\,ms en las
+transacciones críticas y una disponibilidad prácticamente ininterrumpida.
+En cuanto a la escalabilidad, Kafka puede soportar cientos de miles de
+eventos por segundo por clúster, mientras que Flink es capaz de procesar
+decenas de millones de eventos por segundo cuando el escenario lo requiere.
+Entre las métricas clave que se monitorean de forma continua destacan el
+tiempo medio de detección de fraude, el porcentaje de fraude bloqueado, el
+número de transacciones por segundo atendidas y el costo total de propiedad
+(TCO) de la infraestructura.
 
 \subsection{Seguridad y cumplimiento}
-\porCompletar{Jose David Choquehuanca Calcina}{3}
-
+% Responsable: Jose David Choquehuanca Calcina
+La seguridad es el eje central de un banco digital: se implementan múltiples
+capas de autenticación (tokens seguros, MFA, biometría móvil) y cifrado de
+extremo a extremo para los datos sensibles. Además del cifrado en reposo y en
+tránsito, se exige el cumplimiento de PCI-DSS para los datos de tarjetas, la
+tokenización del número de tarjeta (PAN), GDPR para los datos personales,
+PSD2 (Open Banking en la Unión Europea) y las normativas AML/KYC contra el
+lavado de activos. Las transacciones se monitorean de forma continua para
+detectar anomalías, se aplican verificaciones adicionales ante patrones
+sospechosos —como el protocolo 3D Secure— y cada acceso queda registrado en
+\textit{logs} inmutables para garantizar la trazabilidad. También se emplean
+soluciones de IAM (roles y certificados), \textit{firewalls} de aplicación
+web (WAF), sistemas de detección y prevención de intrusos (IDS/IPS), y una
+gestión frecuente de vulnerabilidades.
 \subsection{Impacto en el negocio}
 La implementación de una arquitectura de datos en tiempo real y alta seguridad en un banco digital genera un impacto directo y medible en los indicadores clave de rendimiento (KPIs) del negocio financiero. En primer lugar, la disponibilidad continua y la baja latencia en el procesamiento de transacciones reducen drásticamente la tasa de abandono de carritos o de operaciones móviles frustradas, mejorando la satisfacción del cliente (\textit{Net Promoter Score} o NPS).
 
