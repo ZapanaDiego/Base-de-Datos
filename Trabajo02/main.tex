@@ -194,17 +194,36 @@ Jose Carlos Chino Nina &
 \tableofcontents
 \newpage
 
-% ==============================================================================
-% RESUMEN EJECUTIVO
-% ==============================================================================
-\section*{Resumen ejecutivo}
-\porCompletar{Todo el equipo (al final)}{3}
 
 % ==============================================================================
 % 1. INTRODUCCIÓN
+% Responsable: Diego Eduardo Zapana Choquehuayta
 % ==============================================================================
 \section{Introducción}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+Las bases de datos han dejado de ser un simple repositorio de información para
+convertirse en un activo estratégico que sostiene la operación, la
+personalización y la toma de decisiones de las grandes organizaciones
+digitales. Hoy en día, empresas de comercio electrónico, plataformas de
+entretenimiento y entidades financieras dependen de arquitecturas de datos
+cada vez más sofisticadas —relacionales, NoSQL, en memoria y distribuidas—
+para poder atender a millones de usuarios de forma simultánea, con altos
+niveles de disponibilidad, seguridad y rendimiento.
+
+En el presente trabajo se analizan tres casos de estudio: Amazon, que utiliza
+bases de datos distribuidas para generar recomendaciones de productos en
+tiempo real; Netflix, que procesa volúmenes masivos de datos (Big Data) para
+analizar los patrones de consumo de sus usuarios; y un banco digital, que
+requiere una gestión de datos segura y en tiempo real para prevenir el fraude
+y cumplir con la normativa financiera vigente.
+
+El objetivo de este informe es identificar, para cada organización, la
+arquitectura de datos empleada, los flujos de información, las herramientas y
+tecnologías específicas, las métricas de rendimiento y escalabilidad, las
+medidas de seguridad y cumplimiento, el impacto que estas soluciones tienen en
+el negocio, y los principales retos y lecciones aprendidas. Finalmente, se
+presenta un análisis comparativo entre los tres casos, con el fin de extraer
+conclusiones generales sobre el papel estratégico de las bases de datos en la
+industria digital actual.
 
 % ==============================================================================
 % 2. CASO 1: AMAZON
@@ -212,13 +231,53 @@ Jose Carlos Chino Nina &
 \section{Caso 1: Amazon --- Bases de datos distribuidas para recomendaciones}
 
 \subsection{Arquitectura de datos}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+Amazon utiliza un \textit{data lake} centralizado en Amazon S3, administrado
+con AWS Lake Formation, donde se almacenan los registros de usuarios, las
+transacciones y los catálogos de productos. Las consultas analíticas se
+realizan mediante Amazon Athena (SQL \textit{serverless} sobre S3), mientras
+que el proceso de extracción, transformación y carga (ETL) se ejecuta con AWS
+Glue utilizando PySpark. Los modelos de recomendación se entrenan en Amazon
+SageMaker y se ejecutan tanto en modo por lotes (\textit{Batch Transform})
+como en línea, según el caso de uso.
+
+El resultado final de este proceso —las listas de recomendaciones— se publica
+en Amazon DynamoDB, una base de datos NoSQL de tipo clave-valor/documento,
+totalmente gestionada y sin necesidad de administrar servidores, que ofrece
+transacciones ACID y consistencia de lectura fuerte de forma opcional.
+DynamoDB escala horizontalmente mediante particionado automático basado en la
+clave primaria, y admite tablas globales replicadas en varias regiones para
+garantizar alta disponibilidad.
+
+Para las señales que requieren respuesta casi instantánea, Amazon complementa
+esta arquitectura con Amazon MemoryDB, una base de datos en memoria compatible
+con Redis, organizada en particiones (\textit{shards}) con una réplica
+primaria y hasta cinco réplicas de lectura por partición, lo que le permite
+ofrecer latencias de lectura del orden de microsegundos.
 
 \subsection{Flujos de datos y pipelines}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{4}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+El flujo de generación de recomendaciones comienza en el \textit{data lake}
+(Amazon S3) y es orquestado mediante Amazon MWAA (Apache Airflow gestionado).
+En primer lugar, se extraen los datos históricos utilizando Athena y Glue; a
+continuación, estos datos alimentan el entrenamiento del modelo en SageMaker.
+En cada ciclo del proceso se aplica una inferencia por lotes (\textit{Batch
+Transform}), que genera vectores de usuario y de producto.
 
-% Diagrama de flujo del pipeline (opcional). Reemplaza el ejemplo con tu propio
-% diagrama usando TikZ, o bórralo y pega una imagen con \includegraphics.
+Posteriormente, se realiza una búsqueda por similitud (\textit{Approximate
+Nearest Neighbors}, ANN) empleando la librería FAISS dentro de SageMaker
+Processing, y los resultados obtenidos se combinan y reordenan mediante un
+proceso adicional en Glue. Finalmente, las recomendaciones calculadas por
+lotes se almacenan en DynamoDB para su consulta desde las aplicaciones, y las
+señales dinámicas (por ejemplo, vectores de productos vistos recientemente) se
+envían a MemoryDB para su uso en consultas en línea de muy baja latencia.
+
+Este diseño híbrido, que combina procesamiento por lotes (\textit{batch}) y en
+tiempo real, permite que Amazon trate primero las señales más estables (como
+el historial de compras o las relaciones entre productos del catálogo) de
+forma económica y eficiente, para luego añadir filtros y reordenamientos en
+tiempo real únicamente donde realmente se necesitan.
+
 \begin{center}
 \begin{tikzpicture}[
   node distance=0.9cm and 1.1cm,
@@ -226,21 +285,36 @@ Jose Carlos Chino Nina &
               text width=2.6cm, align=center, minimum height=1cm, font=\small},
   arr/.style={-{Stealth[length=2mm]}, thick, color=lasalleblue}
 ]
-  \node[box] (a) {*********};
-  \node[box, right=of a]  (b)  {*********};
-  \node[box, right=of b] (c)   {*********};
-  \node[box, right=of c] (d)   {*********};
+  \node[box] (s3)   {Data Lake\\(S3 + Lake Formation)};
+  \node[box, right=of s3]  (glue)  {Athena / Glue\\(ETL, consultas)};
+  \node[box, right=of glue] (sm)   {SageMaker\\(entrenamiento e inferencia)};
+  \node[box, below right=1.1cm and -0.3cm of sm] (dynamo) {DynamoDB\\(recomend. por lotes)};
+  \node[box, below left=1.1cm and -0.3cm of sm]  (memdb)  {MemoryDB\\(búsqueda en tiempo real)};
 
-  \draw[arr] (a) -- (b);
-  \draw[arr] (b) -- (c);
-  \draw[arr] (c) -- (d);
+  \draw[arr] (s3) -- (glue);
+  \draw[arr] (glue) -- (sm);
+  \draw[arr] (sm) -- (dynamo);
+  \draw[arr] (sm) -- (memdb);
 \end{tikzpicture}
 \end{center}
 
 \subsection{Herramientas y tecnologías}
-\porCompletar{Diego Eduardo Zapana Choquehuayta}{3}
+% Responsable: Diego Eduardo Zapana Choquehuayta
+El ecosistema tecnológico utilizado por Amazon para este caso de uso está
+construido en su totalidad sobre la nube de AWS, lo cual facilita el escalado
+sin necesidad de administrar infraestructura de forma manual. Entre los
+servicios principales se encuentran: Amazon S3 y Lake Formation para el
+almacenamiento centralizado de datos; Amazon Athena para consultas SQL
+\textit{serverless}; AWS Glue para los procesos ETL basados en PySpark; Amazon
+SageMaker para el entrenamiento e inferencia de los modelos de \textit{machine
+learning}; Amazon DynamoDB como base de datos final que sirve las
+recomendaciones; y Amazon MemoryDB (compatible con Redis) para las búsquedas
+de baja latencia. La orquestación de todo el flujo de trabajo se realiza
+mediante Amazon MWAA (Airflow gestionado), lo que permite definir y monitorear
+los distintos \textit{DAGs} (flujos de tareas) del \textit{pipeline}.
 
 \subsection{Métricas de rendimiento y escalabilidad}
+<<<<<<< HEAD
 \porCompletar{Diego Eduardo Zapana Choquehuayta}{3}
 
 \subsection{Seguridad y cumplimiento}
@@ -266,7 +340,27 @@ El diseño y mantenimiento del sistema de recomendación distribuido presentó d
     \item \textbf{Mitigación de la clave caliente (\textit{Hot Keys}):} Superación de la saturación de particiones causada por productos altamente populares durante ofertas relámpago, resuelta mediante fragmentación dinámica y capas de almacenamiento en caché en memoria como Amazon ElastiCache.
     \item \textbf{Sincronización multirregión:} Desafío de replicar las preferencias e historial del usuario globalmente en tiempo real manteniendo costos operacionales controlados y evitando la duplicación inconsistente de eventos.
 \end{itemize}
+=======
+% Responsable: Diego Eduardo Zapana Choquehuayta
+DynamoDB ofrece un rendimiento uniforme, con tiempos de respuesta de
+milisegundos de un solo dígito, independientemente de la escala del sistema.
+Durante eventos de tráfico extremadamente alto, como el Prime Day, la base de
+datos ha llegado a atender picos de cientos de miles de solicitudes por
+segundo sobre tablas que superan los 200\,TB de información. Por su parte,
+MemoryDB logra tiempos de lectura del orden de microsegundos y tiempos de
+escritura de pocos milisegundos, con un nivel de disponibilidad cercano al
+99{,}999\,\%.
+>>>>>>> origin/main
 
+En cuanto al volumen de datos, el \textit{data lake} de Amazon almacena
+aproximadamente 25\,petabytes de información en S3, sobre los cuales se
+entrenan y reentrenan periódicamente los modelos de recomendación. Tanto AWS
+Glue como Amazon SageMaker cuentan con mecanismos de autoescalado que permiten
+adaptar automáticamente los recursos de cómputo según el volumen de datos y la
+demanda de cada mercado o región, optimizando además los costos al utilizar
+esquemas de pago por uso (por ejemplo, DynamoDB en modo \textit{on-demand} y
+trabajos de Glue con autoescalado, sin necesidad de mantener infraestructura
+provisionada de forma permanente).
 % ==============================================================================
 % 3. CASO 2: NETFLIX
 % ==============================================================================
