@@ -435,37 +435,79 @@ El ecosistema de procesamiento de Netflix gestiona billones de eventos diarios d
 % ==============================================================================
 % 4. CASO 3: BANCO DIGITAL
 % ==============================================================================
+\newpage
 \section{Caso 3: Banco digital --- Seguridad y gestión de datos en tiempo real}
 
 \subsection{Arquitectura de datos}
-
-El sector bancario ha migrado de bases de datos tradicionales a arquitecturas de big data e infraestructura en la nube para gestionar grandes volúmenes de información de manera escalable y eficiente.
-Para ello, se implementan repositorios centralizados y lagos de datos (data lakes) con un enfoque multicapa (como medallion lakehouse con propiedades ACID) que unifican registros de transacciones y 
-perfiles de clientes. Esta evolución de los repositorios y depositarios digitales actúa como un ecosistema dinámico que garantiza la seguridad, la integridad y un control de acceso diferenciado según los roles de los usuarios.
+% Responsable: Jose David Choquehuanca Calcina
+Un banco digital típico combina bases de datos relacionales tradicionales con
+tecnologías modernas de datos distribuidos. El núcleo bancario (cuentas,
+pagos) reside en motores RDBMS transaccionales, como Oracle, PostgreSQL o SQL
+Server, con replicación síncrona o asíncrona que garantiza las propiedades
+ACID. Estas transacciones también se vuelcan hacia un \textit{data lake} o un
+\textit{data warehouse} (por ejemplo, AWS S3, Azure Data Lake, o motores
+analíticos como Snowflake o BigQuery) para el análisis histórico. Para el
+procesamiento en tiempo real se incorporan bases de datos NoSQL distribuidas,
+como Cassandra o DynamoDB, junto con cachés en memoria (Redis/MemoryDB), que
+permiten atender consultas de alta concurrencia con baja latencia. Todo el
+ecosistema se integra mediante plataformas de \textit{streaming} como Apache
+Kafka o AWS Kinesis, siguiendo patrones arquitectónicos tipo Lambda o Kappa
+que combinan el procesamiento por lotes con el procesamiento en tiempo real.
 
 \subsection{Flujos de datos y pipelines}
-
-Se utilizan herramientas ETL para procesar de forma concurrente diversos formatos (CSV, JSON, XML y RDBMS) procedentes de aplicaciones móviles, redes sociales y la banca electrónica. Estos flujos combinan procesamiento en tiempo 
-real destinado a transacciones inmediatas y detección de fraudes con procesamiento por lotes (batch) para información menos urgente. La integración de la inteligencia artificial y el aprendizaje automático dentro de los repositorios 
-impulsa la banca predictiva y automatiza el análisis de grandes volúmenes de datos.
+% Responsable: Jose David Choquehuanca Calcina
+Cada transacción o evento bancario —por ejemplo, la apertura de una cuenta o
+un pago con tarjeta— se publica en un \textit{topic} de Kafka. Una capa de
+procesamiento en \textit{streaming} (Apache Flink o Spark Streaming) analiza
+esos eventos de forma inmediata, aplicando modelos de \textit{scoring}
+crediticio o detección de fraude, y dispara alertas o validaciones KYC cuando
+es necesario. En paralelo, los datos transaccionales se ingieren por lotes
+hacia el \textit{data lake} mediante procesos ETL (Spark en EMR/Databricks o
+Azure Synapse), que alimentan tableros de inteligencia de negocio (BI),
+modelos de \textit{machine learning} y los reportes exigidos por los entes
+reguladores.
 
 \subsection{Herramientas y tecnologías}
-
-Las instituciones financieras emplean algoritmos de inteligencia artificial y aprendizaje automático para automatizar procesos, calificar créditos mediante fuentes alternativas y detectar anomalías en tiempo real. Se integra también
-tecnología blockchain para mejorar la encriptación y trazabilidad de los datos institucionales, junto con soluciones de automatización robótica de procesos (RPA), chatbots con procesamiento de lenguaje natural y herramientas RegTech
-para optimizar el cumplimiento y la atención. Adicionalmente, se implementan soluciones especializadas como el enmascaramiento de datos y la tokenización para trabajar de forma segura con información sensible en entornos de prueba.
+% Responsable: Jose David Choquehuanca Calcina
+Entre las herramientas más utilizadas se encuentran Kafka/Confluent y
+Flink/Spark Streaming para el procesamiento de eventos, Elasticsearch o
+ClickHouse para consultas rápidas sobre \textit{logs}, motores RDBMS
+relacionales para el núcleo transaccional, y cachés como Redis o Memcached
+para las sesiones de usuario. En la nube se recurre a servicios como AWS
+Kinesis, Azure Event Hubs o Azure Databricks, junto con \textit{frameworks}
+de \textit{machine learning} como scikit-learn o TensorFlow para los modelos
+de \textit{scoring} y detección de fraude. La infraestructura suele ser
+\textit{cloud-native}, apoyada en contenedores (Kubernetes), microservicios y
+\textit{API Gateways}, con la gestión de identidades basada en
+OAuth2/OpenID Connect y SSO empresarial.
 
 \subsection{Métricas de rendimiento y escalabilidad}
-
-La adopción de la nube y arquitecturas escalables permite manejar bases de datos masivas como sistemas de 2.6 TB con miles de tablas y procesar miles de millones de operaciones sin degradar el rendimiento. Las soluciones de optimización 
-logran reducir significativamente los tiempos de procesamiento y mejoran la eficiencia operativa al delegar consultas rutinarias en sistemas automatizados.
+% Responsable: Jose David Choquehuanca Calcina
+Un banco digital debe garantizar latencias inferiores a 100\,ms en las
+transacciones críticas y una disponibilidad prácticamente ininterrumpida.
+En cuanto a la escalabilidad, Kafka puede soportar cientos de miles de
+eventos por segundo por clúster, mientras que Flink es capaz de procesar
+decenas de millones de eventos por segundo cuando el escenario lo requiere.
+Entre las métricas clave que se monitorean de forma continua destacan el
+tiempo medio de detección de fraude, el porcentaje de fraude bloqueado, el
+número de transacciones por segundo atendidas y el costo total de propiedad
+(TCO) de la infraestructura.
 
 \subsection{Seguridad y cumplimiento}
-
-Para proteger la información sensible, se implementan estrictas medidas de cifrado en reposo y tránsito, autenticación de dos factores, datos biométricos y técnicas de anonimización. La gobernanza de datos y la centralización facilitan
-el cumplimiento automatizado de normativas globales y locales (como GDPR, CCPA y Basilea III), reduciendo los riesgos de sanciones y auditorías costosas. Asimismo, se defienden los sistemas de forma proactiva contra amenazas avanzadas
-como ransomware, ataques DDoS, phishing y filtraciones mediante monitoreo continuo y controles de acceso rigurosos.
-
+% Responsable: Jose David Choquehuanca Calcina
+La seguridad es el eje central de un banco digital: se implementan múltiples
+capas de autenticación (tokens seguros, MFA, biometría móvil) y cifrado de
+extremo a extremo para los datos sensibles. Además del cifrado en reposo y en
+tránsito, se exige el cumplimiento de PCI-DSS para los datos de tarjetas, la
+tokenización del número de tarjeta (PAN), GDPR para los datos personales,
+PSD2 (Open Banking en la Unión Europea) y las normativas AML/KYC contra el
+lavado de activos. Las transacciones se monitorean de forma continua para
+detectar anomalías, se aplican verificaciones adicionales ante patrones
+sospechosos —como el protocolo 3D Secure— y cada acceso queda registrado en
+\textit{logs} inmutables para garantizar la trazabilidad. También se emplean
+soluciones de IAM (roles y certificados), \textit{firewalls} de aplicación
+web (WAF), sistemas de detección y prevención de intrusos (IDS/IPS), y una
+gestión frecuente de vulnerabilidades.
 \subsection{Impacto en el negocio}
 \porCompletar{Jose Carlos Chino Nina}{3}
 
